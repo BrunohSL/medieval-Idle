@@ -22,6 +22,7 @@ public class PlayerData {
     public int[] buildingNextProductionScale = new int[12];
     public double[] buildingNextCostValue = new double[12];
     public int[] buildingNextCostScale = new int[12];
+    public double[] buildingMultiplier = new double[12];
 
     public PlayerData() {
         totalSoulsValue = Souls.totalSouls.value;
@@ -30,7 +31,7 @@ public class PlayerData {
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
 
-        multiplier = Modifiers.multiplier;
+        multiplier = Modifiers.globalMultiplier;
 
         int counter = 0;
 
@@ -45,6 +46,7 @@ public class PlayerData {
             buildingNextProductionScale[counter] = building.nextProduction.scale;
             buildingNextCostValue[counter] = building.nextCost.value;
             buildingNextCostScale[counter] = building.nextCost.scale;
+            buildingMultiplier[counter] = building.buildingMultiplier;
             counter++;
         }
     }

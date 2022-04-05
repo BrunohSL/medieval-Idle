@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// C:\Program Files\dotnet\
+// C:\Program Files (x86)\dotnet\
 
 public static class Buildings {
     public static List<Building> buildingsList = new List<Building>();
@@ -48,8 +50,8 @@ public static class Buildings {
      *
      * @return string nextProductionRate
      */
-    private static string getNextProductionRate(double initialProduction, int level, double multiplier = 1) {
-        double nextProductionRate = (initialProduction * level) * multiplier;
+    private static string getNextProductionRate(double initialProduction, int level, double globalMultiplier = 1, double buildingMultiplier = 1) {
+        double nextProductionRate = ((initialProduction * level) * globalMultiplier) * buildingMultiplier;
 
         return nextProductionRate.ToString("N2");
     }
@@ -81,7 +83,7 @@ public static class Buildings {
             building.actualProduction.value = building.nextProduction.value;
             building.level++;
 
-            building.nextProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level, Modifiers.multiplier));
+            building.nextProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level, Modifiers.globalMultiplier, building.tierlist.rankMultiplier[building.tierlistRank]));
 
             Value buildingNextCost = new Value();
             buildingNextCost = getNextUpgradeCost(building.initialCost, building.growthRate, building.level, building.nextCost.scale);
@@ -140,12 +142,25 @@ public static class Buildings {
 
     public static void updateBuildingsActualProduction() {
         foreach (Building building in Buildings.buildingsList) {
-            building.nextProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level + 1, Modifiers.multiplier));
-            building.actualProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level, Modifiers.multiplier));
+            building.nextProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level + 1, Modifiers.globalMultiplier, building.tierlist.rankMultiplier[building.tierlistRank]));
+            building.actualProduction.value = double.Parse(getNextProductionRate(building.initialProduction, building.level, Modifiers.globalMultiplier, building.tierlist.rankMultiplier[building.tierlistRank]));
         }
     }
 
     public static void setBuildingsList() {
+        // List<GameObject> goldGeneratorBuildings = new List<GameObject>();
+
+        GameObject[] goldGeneratorBuildings = GameObject.FindGameObjectsWithTag("GoldGeneratorBuilding");
+
+        List<BuildingScriptableObject> ScriptableObjectsList = new List<BuildingScriptableObject>();
+
+        // foreach (GameObject building in goldGeneratorBuildings) {
+        //     // building.GetComponent<ScriptableObject>();
+        //     ScriptableObjectsList.Add(building.GetComponent<BuildingController>().getScriptableObject());
+        // }
+
+        Debug.Log(ScriptableObjectsList.Count);
+
         // Graveyard
         buildingClass.buildingName = "graveyard";
         buildingClass.description = "Just a simple cemetery.";
@@ -157,18 +172,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 5f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -184,18 +197,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 60f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -211,18 +222,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -238,18 +247,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -265,18 +272,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -292,18 +297,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -319,18 +322,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -346,18 +347,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -373,18 +372,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 720f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -400,18 +397,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 0f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -427,18 +422,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 0f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();
@@ -454,18 +447,16 @@ public static class Buildings {
 
         buildingClass.actualProduction.value = 0f;
         buildingClass.actualProduction.scale = 0;
-        buildingClass.actualProduction.multiplier = 1f;
 
         buildingClass.nextProduction.value = 0f;
         buildingClass.nextProduction.scale = 0;
-        buildingClass.nextProduction.multiplier = 1f;
 
         buildingClass.nextCost.value = 0f;
         buildingClass.nextCost.scale = 0;
-        buildingClass.nextCost.multiplier = 1f;
 
         buildingClass.tierlist = new BuildingTierlist();
         buildingClass.tierlistRank = 0;
+        buildingClass.buildingMultiplier = 1;
 
         buildingsList.Add(buildingClass);
         buildingClass = new Building();

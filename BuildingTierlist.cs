@@ -27,4 +27,28 @@ public class BuildingTierlist {
         1750,
         2000
     };
+
+    public int[] rankMultiplier = new int[] {
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        10
+    };
 }

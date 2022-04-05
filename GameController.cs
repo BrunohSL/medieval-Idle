@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour {
     public string lastTimeOnline;
     public static string wishingWellLastCollectedTime = "";
 
+    // public BuildingController buildingController;
+
     public Text soulsText;
     public Value offlineEarnings;
 
@@ -32,7 +34,7 @@ public class GameController : MonoBehaviour {
 
         loadGame();
 
-        instantiateBuildings();
+        // instantiateBuildings();
     }
 
     void Update() {
@@ -50,25 +52,7 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Modifiers.multiplier += 0.10f;
-            Buildings.updateBuildingsActualProduction();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) {
-            Modifiers.multiplier -= 0.10f;
-            Buildings.updateBuildingsActualProduction();
-        }
-
-        if (Input.GetKeyDown(KeyCode.W)) {
-            Debug.Log(Modifiers.multiplier);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            Value actualProduction = getBuildingTotalProduction();
-            Debug.Log(actualProduction.value);
-            Debug.Log(actualProduction.scale);
-        }
+        debug();
 
         time -= Time.deltaTime;
         if (time <= 0) {
@@ -81,47 +65,59 @@ public class GameController : MonoBehaviour {
         }
 
         if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended)  && !buildingUpgradeUiOpen) {
+        // if (Input.GetMouseButtonDown(0) && !buildingUpgradeUiOpen) {
             Ray raycast = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            // Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit raycastHit;
 
             if (Physics.Raycast(raycast, out raycastHit)) {
-                if (raycastHit.collider.name == "graveyard") {
-                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("graveyard"), upgradeBuildingUi);
-                }
                 if (raycastHit.collider.name == "church") {
+                    Debug.Log("click na igreja");
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("church"), upgradeBuildingUi);
                 }
-                if (raycastHit.collider.name == "guillotine") {
-                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("guillotine"), upgradeBuildingUi);
-                }
+                // if (raycastHit.collider.name == "guillotine") {
+                //     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("guillotine"), upgradeBuildingUi);
+                // }
                 if (raycastHit.collider.name == "farm") {
+                    Debug.Log("click na fazenda");
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("farm"), upgradeBuildingUi);
                 }
                 if (raycastHit.collider.name == "armorShop") {
+                    Debug.Log("click na loja de armaduras");
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("armorShop"), upgradeBuildingUi);
                 }
-                if (raycastHit.collider.name == "chickenNest") {
+                if (raycastHit.collider.name == "animalFarm") {
+                    Debug.Log("click na fazenda de animais");
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("chickenNest"), upgradeBuildingUi);
                 }
+                if (raycastHit.collider.name == "foodShop") {
+                    Debug.Log("click na loja de comida");
+                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("foodShop"), upgradeBuildingUi);
+                }
+
                 if (raycastHit.collider.name == "weaponShop") {
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("weaponShop"), upgradeBuildingUi);
                 }
-                if (raycastHit.collider.name == "foodShop") {
-                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("foodShop"), upgradeBuildingUi);
+                if (raycastHit.collider.name == "graveyard") {
+                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("graveyard"), upgradeBuildingUi);
                 }
                 if (raycastHit.collider.name == "battleArena") {
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("battleArena"), upgradeBuildingUi);
                 }
 
+                if (raycastHit.collider.name == "library") {
+                    Debug.Log("click na biblioteca");
+                    wishingWellUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("library"), upgradeBuildingUi);
+                }
                 if (raycastHit.collider.name == "wishingWell") {
                     wishingWellUi.GetComponent<WishingWellUiHandler>().openWishingWellUi();
                 }
                 if (raycastHit.collider.name == "castle") {
                     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("castle"), upgradeBuildingUi);
                 }
-                if (raycastHit.collider.name == "castleWall") {
-                    upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("castleWall"), upgradeBuildingUi);
-                }
+                // if (raycastHit.collider.name == "castleWall") {
+                //     upgradeBuildingUi.GetComponent<BuildingUiHandler>().openUpgradeUi(Buildings.getBuildingByName("castleWall"), upgradeBuildingUi);
+                // }
             }
         }
     }
@@ -162,15 +158,15 @@ public class GameController : MonoBehaviour {
                     }
                 break;
 
-                case "guillotine":
-                    if (building.level == 0) {
-                        GameObject buyGuillotineObject = Instantiate(plotPrefab, new Vector3(262, 0.5f, -98), Quaternion.Euler(0, 270, 0));
-                        buyGuillotineObject.name = "guillotine";
-                    } else {
-                        GameObject upgradeGuillotineObject = Instantiate(upgradeGuillotinePrefab, new Vector3(245, 8.5f, -110), Quaternion.Euler(-90, 0, -75));
-                        upgradeGuillotineObject.name = "guillotine";
-                    }
-                break;
+                // case "guillotine":
+                //     if (building.level == 0) {
+                //         GameObject buyGuillotineObject = Instantiate(plotPrefab, new Vector3(262, 0.5f, -98), Quaternion.Euler(0, 270, 0));
+                //         buyGuillotineObject.name = "guillotine";
+                //     } else {
+                //         GameObject upgradeGuillotineObject = Instantiate(upgradeGuillotinePrefab, new Vector3(245, 8.5f, -110), Quaternion.Euler(-90, 0, -75));
+                //         upgradeGuillotineObject.name = "guillotine";
+                //     }
+                // break;
 
                 case "farm":
                     if (building.level == 0) {
@@ -238,13 +234,42 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public BuildingScriptableObject[] getthing() {
+        BuildingScriptableObject[] test = GameObject.FindObjectsOfType<BuildingScriptableObject>();
+
+        Debug.Log(test.Length);
+        return test;
+    }
+
     void debug() {
         if (Input.GetKeyDown(KeyCode.T)) {
-            string today = System.DateTime.Now.ToString();
-            string tomorrow = System.DateTime.Parse(today).AddDays(1).ToString();
+            // string today = System.DateTime.Now.ToString();
+            // string tomorrow = System.DateTime.Parse(today).AddDays(1).ToString();
 
-            var diffInSeconds = (System.DateTime.Parse(tomorrow) - System.DateTime.Parse(today)).TotalSeconds;
+            // var diffInSeconds = (System.DateTime.Parse(tomorrow) - System.DateTime.Parse(today)).TotalSeconds;
+
+            getthing();
         }
+
+        // if (Input.GetKeyDown(KeyCode.R)) {
+        //     Modifiers.globalMultiplier += 0.10f;
+        //     Buildings.updateBuildingsActualProduction();
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.E)) {
+        //     Modifiers.globalMultiplier -= 0.10f;
+        //     Buildings.updateBuildingsActualProduction();
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.W)) {
+        //     Debug.Log(Modifiers.globalMultiplier);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.Q)) {
+        //     Value actualProduction = getBuildingTotalProduction();
+        //     Debug.Log(actualProduction.value);
+        //     Debug.Log(actualProduction.scale);
+        // }
     }
 
     /**
@@ -281,6 +306,7 @@ public class GameController : MonoBehaviour {
 
     public void loadGame() {
         Buildings.setBuildingsList();
+        Debug.Log("LoadGame");
         PlayerData data = SaveController.loadGame();
 
         if (data != null) {
@@ -288,9 +314,10 @@ public class GameController : MonoBehaviour {
             Souls.totalSouls.scale = data.totalSoulsScale;
 
             lastTimeOnline = data.lastTimeOnline;
-            wishingWellLastCollectedTime = data.wishingWellLastCollectedTime != "" ? data.wishingWellLastCollectedTime : new System.DateTime(2000, 01, 01).ToString();
 
-            Modifiers.multiplier = data.multiplier;
+            GameController.wishingWellLastCollectedTime = data.wishingWellLastCollectedTime != "" ? data.wishingWellLastCollectedTime : new System.DateTime(2000, 01, 01).ToString();
+
+            Modifiers.globalMultiplier = data.multiplier;
 
             int counter = 0;
             foreach (Building building in Buildings.buildingsList) {
@@ -304,13 +331,14 @@ public class GameController : MonoBehaviour {
                 building.nextProduction.scale = data.buildingNextProductionScale[counter];
                 building.nextCost.value = data.buildingNextCostValue[counter];
                 building.nextCost.scale = data.buildingNextCostScale[counter];
+                building.buildingMultiplier = data.buildingMultiplier[counter];
                 counter++;
             }
 
             getOfflineEarnings();
         } else {
             Debug.Log("No game to load");
-            wishingWellLastCollectedTime = new System.DateTime(2000, 01, 01).ToString();
+            GameController.wishingWellLastCollectedTime = new System.DateTime(2000, 01, 01).ToString();
         }
     }
 

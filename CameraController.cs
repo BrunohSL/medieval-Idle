@@ -24,7 +24,9 @@ public class CameraController : MonoBehaviour {
 
         //Scroll
         if (Input.touchCount >= 1 && !GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen) {
+        // if (Input.GetMouseButton(0) && !GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen) {
             Delta1 = PlanePositionDelta(Input.GetTouch(0));
+            // Delta1 = PlanePositionDelta(Input.mousePosition);
             if (Input.GetTouch(0).phase == TouchPhase.Moved) {
                 Camera.transform.Translate(Delta1, Space.World);
             }

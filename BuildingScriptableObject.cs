@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-[System.Serializable]
-public class Building {
+[CreateAssetMenu(fileName = "BuildingScriptableObject", menuName = "ScriptableObjects/Building")]
+public class BuildingScriptableObject : ScriptableObject
+{
     public string buildingName;
     public string description;
     public int level;                      // Actual level
@@ -19,5 +17,8 @@ public class Building {
 
     public BuildingTierlist tierlist;
     public int tierlistRank;
-    public double buildingMultiplier;
+    public double multiplier;
+
+    public MeshRenderer brokenBuildingMesh;
+    public MeshRenderer buildingMesh;
 }
