@@ -17,16 +17,16 @@ public class GameController : MonoBehaviour {
     public GameObject wishingWellUi;
     public bool buildingUpgradeUiOpen = false;
 
-    [SerializeField] private GameObject plotPrefab;
-    [SerializeField] private GameObject upgradeGraveyardPrefab;
-    [SerializeField] private GameObject upgradeChurchPrefab;
-    [SerializeField] private GameObject upgradeGuillotinePrefab;
-    [SerializeField] private GameObject upgradeFarmPrefab;
-    [SerializeField] private GameObject upgradeArmorShopPrefab;
-    [SerializeField] private GameObject upgradeChickenNestPrefab;
-    [SerializeField] private GameObject upgradeWeaponShopPrefab;
-    [SerializeField] private GameObject upgradeFoodShopPrefab;
-    [SerializeField] private GameObject upgradeBattleArenaPrefab;
+    // [SerializeField] private GameObject plotPrefab;
+    // [SerializeField] private GameObject upgradeGraveyardPrefab;
+    // [SerializeField] private GameObject upgradeChurchPrefab;
+    // [SerializeField] private GameObject upgradeGuillotinePrefab;
+    // [SerializeField] private GameObject upgradeFarmPrefab;
+    // [SerializeField] private GameObject upgradeArmorShopPrefab;
+    // [SerializeField] private GameObject upgradeChickenNestPrefab;
+    // [SerializeField] private GameObject upgradeWeaponShopPrefab;
+    // [SerializeField] private GameObject upgradeFoodShopPrefab;
+    // [SerializeField] private GameObject upgradeBattleArenaPrefab;
 
     void Start() {
         Souls.totalSouls.value = 5;
@@ -126,113 +126,113 @@ public class GameController : MonoBehaviour {
         saveGame();
     }
 
-    public void instantiateBuildings() {
-        foreach (Building building in Buildings.buildingsList) {
-            if (GameObject.Find(building.buildingName)) {
-                if (building.buildingName == "castle" || building.buildingName == "castleWall" || building.buildingName == "wishingWell") {
-                    return;
-                }
+    // public void instantiateBuildings() {
+    //     foreach (Building building in Buildings.buildingsList) {
+    //         if (GameObject.Find(building.buildingName)) {
+    //             if (building.buildingName == "castle" || building.buildingName == "castleWall" || building.buildingName == "wishingWell") {
+    //                 return;
+    //             }
 
-                GameObject obj = GameObject.Find(building.buildingName);
-                Destroy(obj);
-            }
+    //             GameObject obj = GameObject.Find(building.buildingName);
+    //             Destroy(obj);
+    //         }
 
-            switch (building.buildingName) {
-                case "graveyard":
-                    if (building.level == 0) {
-                        GameObject buyGraveyardObject = Instantiate(plotPrefab, new Vector3(365, 0.5f, 400), Quaternion.Euler(0, 270, 0));
-                        buyGraveyardObject.name = "graveyard";
-                    } else {
-                        GameObject upgradeGraveyardObject = Instantiate(upgradeGraveyardPrefab, new Vector3(400, 0.3f, 410), Quaternion.Euler(0, 0, 0));
-                        upgradeGraveyardObject.name = "graveyard";
-                    }
-                break;
+    //         switch (building.buildingName) {
+    //             case "graveyard":
+    //                 if (building.level == 0) {
+    //                     GameObject buyGraveyardObject = Instantiate(plotPrefab, new Vector3(365, 0.5f, 400), Quaternion.Euler(0, 270, 0));
+    //                     buyGraveyardObject.name = "graveyard";
+    //                 } else {
+    //                     GameObject upgradeGraveyardObject = Instantiate(upgradeGraveyardPrefab, new Vector3(400, 0.3f, 410), Quaternion.Euler(0, 0, 0));
+    //                     upgradeGraveyardObject.name = "graveyard";
+    //                 }
+    //             break;
 
-                case "church":
-                    if (building.level == 0) {
-                        GameObject buyChurchObject = Instantiate(plotPrefab, new Vector3(-90, 0.5f, -300), Quaternion.Euler(0, 270, 0));
-                        buyChurchObject.name = "church";
-                    } else {
-                        GameObject upgradeChurchObject = Instantiate(upgradeChurchPrefab, new Vector3(-120, 6, -300), Quaternion.Euler(-90, 0, 310));
-                        upgradeChurchObject.name = "church";
-                    }
-                break;
+    //             case "church":
+    //                 if (building.level == 0) {
+    //                     GameObject buyChurchObject = Instantiate(plotPrefab, new Vector3(-90, 0.5f, -300), Quaternion.Euler(0, 270, 0));
+    //                     buyChurchObject.name = "church";
+    //                 } else {
+    //                     GameObject upgradeChurchObject = Instantiate(upgradeChurchPrefab, new Vector3(-120, 6, -300), Quaternion.Euler(-90, 0, 310));
+    //                     upgradeChurchObject.name = "church";
+    //                 }
+    //             break;
 
-                // case "guillotine":
-                //     if (building.level == 0) {
-                //         GameObject buyGuillotineObject = Instantiate(plotPrefab, new Vector3(262, 0.5f, -98), Quaternion.Euler(0, 270, 0));
-                //         buyGuillotineObject.name = "guillotine";
-                //     } else {
-                //         GameObject upgradeGuillotineObject = Instantiate(upgradeGuillotinePrefab, new Vector3(245, 8.5f, -110), Quaternion.Euler(-90, 0, -75));
-                //         upgradeGuillotineObject.name = "guillotine";
-                //     }
-                // break;
+    //             // case "guillotine":
+    //             //     if (building.level == 0) {
+    //             //         GameObject buyGuillotineObject = Instantiate(plotPrefab, new Vector3(262, 0.5f, -98), Quaternion.Euler(0, 270, 0));
+    //             //         buyGuillotineObject.name = "guillotine";
+    //             //     } else {
+    //             //         GameObject upgradeGuillotineObject = Instantiate(upgradeGuillotinePrefab, new Vector3(245, 8.5f, -110), Quaternion.Euler(-90, 0, -75));
+    //             //         upgradeGuillotineObject.name = "guillotine";
+    //             //     }
+    //             // break;
 
-                case "farm":
-                    if (building.level == 0) {
-                        GameObject buyFarmObject = Instantiate(plotPrefab, new Vector3(-226, 0.5f, 305), Quaternion.Euler(0, 270, 0));
-                        buyFarmObject.name = "farm";
-                    } else {
-                        GameObject upgradeFarmObject = Instantiate(upgradeFarmPrefab, new Vector3(-225, 3, 305), Quaternion.Euler(-90, 0, 0));
-                        upgradeFarmObject.name = "farm";
-                    }
-                break;
+    //             case "farm":
+    //                 if (building.level == 0) {
+    //                     GameObject buyFarmObject = Instantiate(plotPrefab, new Vector3(-226, 0.5f, 305), Quaternion.Euler(0, 270, 0));
+    //                     buyFarmObject.name = "farm";
+    //                 } else {
+    //                     GameObject upgradeFarmObject = Instantiate(upgradeFarmPrefab, new Vector3(-225, 3, 305), Quaternion.Euler(-90, 0, 0));
+    //                     upgradeFarmObject.name = "farm";
+    //                 }
+    //             break;
 
-                case "armorShop":
-                    if (building.level == 0) {
-                        GameObject buyArmorShopObject = Instantiate(plotPrefab, new Vector3(80, 0.5f, 155), Quaternion.Euler(0, 270, 0));
-                        buyArmorShopObject.name = "armorShop";
-                    } else {
-                        GameObject upgradeArmorShopObject = Instantiate(upgradeArmorShopPrefab, new Vector3(80, 4, 145), Quaternion.Euler(-90, 0, 180));
-                        upgradeArmorShopObject.name = "armorShop";
-                    }
-                break;
+    //             case "armorShop":
+    //                 if (building.level == 0) {
+    //                     GameObject buyArmorShopObject = Instantiate(plotPrefab, new Vector3(80, 0.5f, 155), Quaternion.Euler(0, 270, 0));
+    //                     buyArmorShopObject.name = "armorShop";
+    //                 } else {
+    //                     GameObject upgradeArmorShopObject = Instantiate(upgradeArmorShopPrefab, new Vector3(80, 4, 145), Quaternion.Euler(-90, 0, 180));
+    //                     upgradeArmorShopObject.name = "armorShop";
+    //                 }
+    //             break;
 
-                case "chickenNest":
-                    if (building.level == 0) {
-                        GameObject buyChickenNestObject = Instantiate(plotPrefab, new Vector3(-250, 0.5f, 170), Quaternion.Euler(0, 270, 0));
-                        buyChickenNestObject.name = "chickenNest";
-                    } else {
-                        GameObject upgradeChickenNestObject = Instantiate(upgradeChickenNestPrefab, new Vector3(-250, 0, 170), Quaternion.Euler(0, 270, 0));
-                        upgradeChickenNestObject.name = "chickenNest";
-                    }
-                break;
+    //             case "chickenNest":
+    //                 if (building.level == 0) {
+    //                     GameObject buyChickenNestObject = Instantiate(plotPrefab, new Vector3(-250, 0.5f, 170), Quaternion.Euler(0, 270, 0));
+    //                     buyChickenNestObject.name = "chickenNest";
+    //                 } else {
+    //                     GameObject upgradeChickenNestObject = Instantiate(upgradeChickenNestPrefab, new Vector3(-250, 0, 170), Quaternion.Euler(0, 270, 0));
+    //                     upgradeChickenNestObject.name = "chickenNest";
+    //                 }
+    //             break;
 
-                case "weaponShop":
-                    if (building.level == 0) {
-                        GameObject buyWeaponShopObject = Instantiate(plotPrefab, new Vector3(215, 0.5f, 70), Quaternion.Euler(0,270,0));
-                        buyWeaponShopObject.name = "weaponShop";
-                    } else {
-                        GameObject upgradeWeaponShopObject = Instantiate(upgradeWeaponShopPrefab, new Vector3(215, 0, 70), Quaternion.Euler(0, 200,0));
-                        upgradeWeaponShopObject.name = "weaponShop";
-                    }
-                break;
+    //             case "weaponShop":
+    //                 if (building.level == 0) {
+    //                     GameObject buyWeaponShopObject = Instantiate(plotPrefab, new Vector3(215, 0.5f, 70), Quaternion.Euler(0,270,0));
+    //                     buyWeaponShopObject.name = "weaponShop";
+    //                 } else {
+    //                     GameObject upgradeWeaponShopObject = Instantiate(upgradeWeaponShopPrefab, new Vector3(215, 0, 70), Quaternion.Euler(0, 200,0));
+    //                     upgradeWeaponShopObject.name = "weaponShop";
+    //                 }
+    //             break;
 
-                case "foodShop":
-                    if (building.level == 0) {
-                        GameObject buyFoodShopObject = Instantiate(plotPrefab, new Vector3(-225, 0.5f, 470), Quaternion.Euler(0,270,0));
-                        buyFoodShopObject.name = "foodShop";
-                    } else {
-                        GameObject upgradeFoodShopObject = Instantiate(upgradeFoodShopPrefab, new Vector3(-225, 3, 470), Quaternion.Euler(-90, 0, 145));
-                        upgradeFoodShopObject.name = "foodShop";
-                    }
-                break;
+    //             case "foodShop":
+    //                 if (building.level == 0) {
+    //                     GameObject buyFoodShopObject = Instantiate(plotPrefab, new Vector3(-225, 0.5f, 470), Quaternion.Euler(0,270,0));
+    //                     buyFoodShopObject.name = "foodShop";
+    //                 } else {
+    //                     GameObject upgradeFoodShopObject = Instantiate(upgradeFoodShopPrefab, new Vector3(-225, 3, 470), Quaternion.Euler(-90, 0, 145));
+    //                     upgradeFoodShopObject.name = "foodShop";
+    //                 }
+    //             break;
 
-                case "battleArena":
-                    if (building.level == 0) {
-                        GameObject buyBattleArenaObject = Instantiate(plotPrefab, new Vector3(110, 0.5f, -60), Quaternion.Euler(0,270,0));
-                        buyBattleArenaObject.name = "battleArena";
-                    } else {
-                        GameObject upgradeBattleArenaObject = Instantiate(upgradeBattleArenaPrefab, new Vector3(110, 3, -60), Quaternion.Euler(-90, 0, 270));
-                        upgradeBattleArenaObject.name = "battleArena";
-                    }
-                break;
+    //             case "battleArena":
+    //                 if (building.level == 0) {
+    //                     GameObject buyBattleArenaObject = Instantiate(plotPrefab, new Vector3(110, 0.5f, -60), Quaternion.Euler(0,270,0));
+    //                     buyBattleArenaObject.name = "battleArena";
+    //                 } else {
+    //                     GameObject upgradeBattleArenaObject = Instantiate(upgradeBattleArenaPrefab, new Vector3(110, 3, -60), Quaternion.Euler(-90, 0, 270));
+    //                     upgradeBattleArenaObject.name = "battleArena";
+    //                 }
+    //             break;
 
-                default:
-                break;
-            }
-        }
-    }
+    //             default:
+    //             break;
+    //         }
+    //     }
+    // }
 
     public BuildingScriptableObject[] getthing() {
         BuildingScriptableObject[] test = GameObject.FindObjectsOfType<BuildingScriptableObject>();

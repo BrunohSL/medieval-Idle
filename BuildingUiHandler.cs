@@ -50,7 +50,7 @@ public class BuildingUiHandler : MonoBehaviour {
             GameObject buildingObj = GameObject.Find(building.buildingName);
             Destroy(buildingObj);
 
-            GameObject.Find("gameController").GetComponent<GameController>().instantiateBuildings();
+            // GameObject.Find("gameController").GetComponent<GameController>().instantiateBuildings();
         }
 
         updateUi(building);
