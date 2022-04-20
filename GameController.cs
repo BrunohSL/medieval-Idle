@@ -20,10 +20,12 @@ public class GameController : MonoBehaviour {
     public BuildingScriptableObject houseScriptableObject;
 
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private GoldController goldController;
 
     void Start() {
-        Souls.totalSouls.value = 5;
-        Souls.totalSouls.scale = 0;
+        goldController.setGold(new Value(5f, 0));
+        // Souls.totalSouls.value = 5;
+        // Souls.totalSouls.scale = 0;
 
         loadGame();
     }
@@ -49,10 +51,12 @@ public class GameController : MonoBehaviour {
         if (time <= 0) {
             Value totalProduction = getBuildingTotalProduction();
             productionText.text = totalProduction.value.ToString();
-            Value valueClass = Currency.add(Souls.totalSouls.value, Souls.totalSouls.scale, totalProduction.value, totalProduction.scale);
+            Value valueClass = Currency.add(goldController.getGold().value, goldController.getGold().scale, totalProduction.value, totalProduction.scale);
 
-            Souls.totalSouls.value = valueClass.value;
-            Souls.totalSouls.scale = valueClass.scale;
+            goldController.setGold(valueClass);
+
+            // Souls.totalSouls.value = valueClass.value;
+            // Souls.totalSouls.scale = valueClass.scale;
             time = 1f;
         }
 
@@ -140,12 +144,18 @@ public class GameController : MonoBehaviour {
      * Handles the transition in scale of values
      */
     public void checkForScaleChange() {
-        if (Souls.totalSouls.value > 1000000) {
-            Souls.totalSouls.value /= 1000000;
-            Souls.totalSouls.scale++;
+        if (goldController.getGold().value > 1000000) {
+            Value tempValue = new Value(goldController.getGold().value, goldController.getGold().scale);
+            tempValue.value /= 1000000;
+            tempValue.scale++;
+
+            goldController.setGold(tempValue);
+            // goldController.setGold(new Value(goldController.getGold().value /= 1000000), goldController.getGold().scale++);
+            // Souls.totalSouls.value /= 1000000;
+            // Souls.totalSouls.scale++;
         }
 
-        soulsText.text = "Souls: " + Souls.totalSouls.value.ToString("N2") + Currency.suifx[Souls.totalSouls.scale];
+        soulsText.text = "Souls: " + goldController.getGold().value.ToString("N2") + Currency.suifx[goldController.getGold().scale];
     }
 
     public void resetButton() {
@@ -154,7 +164,7 @@ public class GameController : MonoBehaviour {
         houseScriptableObject.nextCost.value = 5;
         houseScriptableObject.level = 0;
 
-        Souls.totalSouls.value = 5;
+        goldController.setGold(new Value(5f, 0));
     }
 
     public void saveGame() {
@@ -166,8 +176,9 @@ public class GameController : MonoBehaviour {
         PlayerData data = SaveController.loadGame();
 
         if (data != null) {
-            Souls.totalSouls.value = data.totalSoulsValue;
-            Souls.totalSouls.scale = data.totalSoulsScale;
+            goldController.setGold(new Value(data.totalSoulsValue, data.totalSoulsScale));
+            // Souls.totalSouls.value = data.totalSoulsValue;
+            // Souls.totalSouls.scale = data.totalSoulsScale;
 
             lastTimeOnline = data.lastTimeOnline;
 
@@ -205,10 +216,12 @@ public class GameController : MonoBehaviour {
         offlineEarnings.value = double.Parse(diffInSeconds) * actualProduction.value;
         offlineEarnings.scale = actualProduction.scale;
 
-        Value valueClass = Currency.add(Souls.totalSouls.value, Souls.totalSouls.scale, offlineEarnings.value, offlineEarnings.scale);
+        Value valueClass = Currency.add(goldController.getGold().value, goldController.getGold().scale, offlineEarnings.value, offlineEarnings.scale);
 
-        Souls.totalSouls.value = valueClass.value;
-        Souls.totalSouls.scale = valueClass.scale;
+        goldController.setGold(valueClass);
+
+        // Souls.totalSouls.value = valueClass.value;
+        // Souls.totalSouls.scale = valueClass.scale;
 
         while (offlineEarnings.value > 1000000) {
             offlineEarnings.value /= 1000000;

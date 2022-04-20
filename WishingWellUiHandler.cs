@@ -8,6 +8,8 @@ public class WishingWellUiHandler : MonoBehaviour {
     public Text timeLeftToCollectText;
     public GameObject wishingWellUiPanel;
 
+    [SerializeField] private GoldController goldController;
+
     void Start() {
         collectButton.onClick.AddListener(delegate { collectWishingWellReward(); });
     }
@@ -31,10 +33,12 @@ public class WishingWellUiHandler : MonoBehaviour {
         Value actualProduction = GameObject.Find("gameController").GetComponent<GameController>().getBuildingTotalProduction();
         Value rewardValue = Currency.multiply(actualProduction.value, actualProduction.scale, 5f);
 
-        rewardValue = Currency.add(Souls.totalSouls.value, Souls.totalSouls.scale, rewardValue.value, rewardValue.scale);
+        rewardValue = Currency.add(goldController.getGold().value, goldController.getGold().scale, rewardValue.value, rewardValue.scale);
 
-        Souls.totalSouls.value = rewardValue.value;
-        Souls.totalSouls.scale = rewardValue.scale;
+        goldController.setGold(rewardValue);
+
+        // Souls.totalSouls.value = rewardValue.value;
+        // Souls.totalSouls.scale = rewardValue.scale;
     }
 
     public void setTimeLeftToCollectText(string text) {

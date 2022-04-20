@@ -25,8 +25,8 @@ public class PlayerData {
     public double[] buildingMultiplier = new double[12];
 
     public PlayerData() {
-        totalSoulsValue = Souls.totalSouls.value;
-        totalSoulsScale = Souls.totalSouls.scale;
+        totalSoulsValue = getGoldValue().value;
+        totalSoulsScale = getGoldValue().scale;
 
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
@@ -49,5 +49,9 @@ public class PlayerData {
             buildingMultiplier[counter] = building.buildingMultiplier;
             counter++;
         }
+    }
+
+    private Value getGoldValue() {
+        return GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>().getGold();
     }
 }

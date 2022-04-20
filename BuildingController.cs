@@ -9,9 +9,11 @@ public class BuildingController : MonoBehaviour
 {
     [SerializeField] private BuildingScriptableObject buildingScriptableObject;
     [SerializeField] private GameMath gameMath;
+    [SerializeField] private GoldController goldController;
 
     void Awake() {
         gameMath = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMath>();
+        goldController = GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>();
     }
 
     public BuildingScriptableObject getScriptableObject() {
@@ -43,14 +45,15 @@ public class BuildingController : MonoBehaviour
     public bool levelUpBuilding() {
         Value valueClass = new Value();
 
-        valueClass = Currency.subtract(Souls.totalSouls.value, Souls.totalSouls.scale, buildingScriptableObject.nextCost.value, buildingScriptableObject.nextCost.scale);
+        valueClass = Currency.subtract(goldController.getGold().value, goldController.getGold().scale, buildingScriptableObject.nextCost.value, buildingScriptableObject.nextCost.scale);
 
         if (valueClass == null) {
             Debug.Log("Valor negativo aqui (valor de custo do próximo upgrade é muito caro)");
             return false;
         } else {
-            Souls.totalSouls.value = valueClass.value;
-            Souls.totalSouls.scale = valueClass.scale;
+            goldController.setGold(valueClass);
+            // currencyController..totalSouls.value = valueClass.value;
+            // currencyController..totalSouls.scale = valueClass.scale;
 
             buildingScriptableObject.actualProduction.value = buildingScriptableObject.nextProduction.value;
             buildingScriptableObject.level++;
@@ -78,8 +81,6 @@ public class BuildingController : MonoBehaviour
             if (buildingScriptableObject.level >= buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank]) {
                 buildingScriptableObject.tierlistRank++;
             }
-
-            // setNewBuildingValues(buildingScriptableObject.buildingName, buildingScriptableObject);
 
             return true;
         }

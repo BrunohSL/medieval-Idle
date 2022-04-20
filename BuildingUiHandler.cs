@@ -16,9 +16,10 @@ public class BuildingUiHandler : MonoBehaviour {
     public Button closeBuildingUpgradeUiButton;
 
     public GameObject buildingUpgradeUi;
+    [SerializeField] private GameController gameController;
 
     public void openUpgradeUi(BuildingController buildingController) {
-        GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen = true;
+        gameController.buildingUpgradeUiOpen = true;
         buildingUpgradeUi.SetActive(true);
 
         BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
@@ -57,7 +58,7 @@ public class BuildingUiHandler : MonoBehaviour {
     private void closeBuildingUpgradeUi() {
         this.gameObject.SetActive(false);
 
-        GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen = false;
+        gameController.buildingUpgradeUiOpen = false;
     }
 
     private void updateUi(BuildingController buildingController) {

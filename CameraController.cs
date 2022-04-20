@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour {
     public Camera Camera;
     public bool Rotate;
     protected Plane Plane;
+    [SerializeField] private GameController gameController;
 
     private void Awake() {
         if (Camera == null) {
@@ -23,7 +24,7 @@ public class CameraController : MonoBehaviour {
         var Delta2 = Vector3.zero;
 
         //Scroll
-        if (Input.touchCount >= 1 && !GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen) {
+        if (Input.touchCount >= 1 && !gameController.buildingUpgradeUiOpen) {
             Delta1 = PlanePositionDelta(Input.GetTouch(0));
             if (Input.GetTouch(0).phase == TouchPhase.Moved) {
                 Camera.transform.Translate(Delta1, Space.World);
