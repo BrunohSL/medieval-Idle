@@ -3,11 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameMath {
-    public static Value calculateUpgradeCost() {
-        return new Value();
+    /**
+     * Generate the next upgrade cost of click or employee
+     *
+     * @param double initialProduction production original value, the initial value
+     * @param double level             click level or employee level
+     * @param double multiplier        value of all bonuses that increases soul generation
+     *
+     * @return string nextProductionRate
+     */
+    public static string getNextProductionRate(double initialProduction, int level, double globalMultiplier = 1, double buildingMultiplier = 1) {
+        double nextProductionRate = ((initialProduction * level) * globalMultiplier) * buildingMultiplier;
+
+        return nextProductionRate.ToString("N2");
     }
 
-    public static Value calculateNextProductionValue() {
-        return new Value();
+    /**
+     * Generate the next upgrade cost of click or employee
+     *
+     * @param double initialCost original cost of click or employee, the initial value
+     * @param double growthRate  the coefficient used to increase the next upgrade value for each level up
+     * @param double level       click level or employee level
+     *
+     * @return Value nextCost
+     */
+    public static Value getNextUpgradeCost(double initialCost, double growthRate, int level, int scale) {
+        Value nextCost = new Value();
+        nextCost.scale = 0;
+
+        double nextCostValue = initialCost * (Mathf.Pow((float)growthRate, level));
+        nextCost.value = nextCostValue;
+
+        if (nextCost.value > 1000000) {
+            Debug.Log("Subiu scale do próximo custo");
+            nextCost.value /= 1000000;
+            nextCost.scale++;
+        }
+
+        return nextCost;
     }
 }

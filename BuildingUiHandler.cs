@@ -15,24 +15,29 @@ public class BuildingUiHandler : MonoBehaviour {
     public Button invisibleCloseButton;
     public Button closeBuildingUpgradeUiButton;
 
-    public void openUpgradeUi(Building building, GameObject buildingUpgradeUi) {
+    public GameObject buildingUpgradeUi;
+
+    public void openUpgradeUi(BuildingController buildingController) {
         GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen = true;
         buildingUpgradeUi.SetActive(true);
 
-        buildingNameText.text = building.buildingName;
-        BuyValueText.text = building.nextCost.value.ToString("N2") + building.nextCost.scale;
-        levelText.text = building.level.ToString() + "/" + building.tierlist.rank[building.tierlistRank].ToString();
-        soulsPerSecondText.text = building.actualProduction.value.ToString("N2") + building.actualProduction.scale;
+        BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
 
-        levelSlider.maxValue = building.tierlist.rank[building.tierlistRank];
+        buildingNameText.text = buildingScriptableObject.buildingName;
+        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N2") + buildingScriptableObject.nextCost.scale;
+        levelText.text = buildingScriptableObject.level.ToString() + "/" + buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank].ToString();
+        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N2") + buildingScriptableObject.actualProduction.scale;
+
+        levelSlider.maxValue = buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank];
         // if (building.tierlistRank > 0) {
         //     levelSlider.minValue = building.tierlist.rank[building.tierlistRank--];
         // }
-        levelSlider.value = building.level;
+        // levelSlider.value = building.level;
+        levelSlider.value = buildingScriptableObject.level;
 
         clearButtonListeners();
 
-        upgradeButton.onClick.AddListener(delegate { upgradeBuilding(building); });
+        upgradeButton.onClick.AddListener(delegate { upgradeBuilding(buildingController); });
         invisibleCloseButton.onClick.AddListener(delegate { closeBuildingUpgradeUi(); });
         closeBuildingUpgradeUiButton.onClick.AddListener(delegate { closeBuildingUpgradeUi(); });
     }
@@ -43,17 +48,10 @@ public class BuildingUiHandler : MonoBehaviour {
         closeBuildingUpgradeUiButton.onClick.RemoveAllListeners();
     }
 
-    private void upgradeBuilding(Building building) {
-        bool response = Buildings.levelUpBuilding(building);
+    private void upgradeBuilding(BuildingController buildingController) {
+        bool response = buildingController.levelUpBuilding();
 
-        if (building.level == 1 && response) {
-            GameObject buildingObj = GameObject.Find(building.buildingName);
-            Destroy(buildingObj);
-
-            // GameObject.Find("gameController").GetComponent<GameController>().instantiateBuildings();
-        }
-
-        updateUi(building);
+        updateUi(buildingController);
     }
 
     private void closeBuildingUpgradeUi() {
@@ -62,15 +60,17 @@ public class BuildingUiHandler : MonoBehaviour {
         GameObject.Find("gameController").GetComponent<GameController>().buildingUpgradeUiOpen = false;
     }
 
-    private void updateUi(Building building) {
-        buildingNameText.text = building.buildingName;
-        BuyValueText.text = building.nextCost.value.ToString("N2") + building.nextCost.scale;
-        levelText.text = building.level.ToString() + "/" + building.tierlist.rank[building.tierlistRank].ToString();
-        soulsPerSecondText.text = building.actualProduction.value.ToString("N2") + building.actualProduction.scale;
-        levelSlider.maxValue = building.tierlist.rank[building.tierlistRank];
+    private void updateUi(BuildingController buildingController) {
+        BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
+
+        // buildingNameText.text = building.buildingName;
+        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N2") + buildingScriptableObject.nextCost.scale;
+        levelText.text = buildingScriptableObject.level.ToString() + "/" + buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank].ToString();
+        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N2") + buildingScriptableObject.actualProduction.scale;
+        levelSlider.maxValue = buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank];
         // if (building.tierlistRank > 0) {
         //     levelSlider.minValue = building.tierlist.rank[building.tierlistRank--];
         // }
-        levelSlider.value = building.level;
+        levelSlider.value = buildingScriptableObject.level;
     }
 }
