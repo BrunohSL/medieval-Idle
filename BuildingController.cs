@@ -7,8 +7,12 @@ using UnityEngine;
 // definir 'sprite' da construção, predio demolido caso seja lvl 0 ou modelo certo da construção
 public class BuildingController : MonoBehaviour
 {
-    [SerializeField]
-    private BuildingScriptableObject buildingScriptableObject;
+    [SerializeField] private BuildingScriptableObject buildingScriptableObject;
+    [SerializeField] private GameMath gameMath;
+
+    void Awake() {
+        gameMath = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMath>();
+    }
 
     public BuildingScriptableObject getScriptableObject() {
         return buildingScriptableObject;
@@ -27,7 +31,7 @@ public class BuildingController : MonoBehaviour
     }
 
     /**
-     * Upgrade employee button behavior
+     * Upgrade building button behavior
      *
      * First check if the player can buy the next upgrade,
      * Then reduces the cost of the upgrade from your number of souls,
@@ -51,10 +55,22 @@ public class BuildingController : MonoBehaviour
             buildingScriptableObject.actualProduction.value = buildingScriptableObject.nextProduction.value;
             buildingScriptableObject.level++;
 
-            buildingScriptableObject.nextProduction.value = double.Parse(GameMath.getNextProductionRate(buildingScriptableObject.initialProduction, buildingScriptableObject.level, Modifiers.globalMultiplier, buildingScriptableObject.tierlist.rankMultiplier[buildingScriptableObject.tierlistRank]));
+            buildingScriptableObject.nextProduction.value = double.Parse(
+                gameMath.getNextProductionRate(
+                    buildingScriptableObject.initialProduction,
+                    buildingScriptableObject.level,
+                    Modifiers.globalMultiplier,
+                    buildingScriptableObject.tierlist.rankMultiplier[buildingScriptableObject.tierlistRank]
+                )
+            );
 
             Value buildingNextCost = new Value();
-            buildingNextCost = GameMath.getNextUpgradeCost(buildingScriptableObject.initialCost, buildingScriptableObject.growthRate, buildingScriptableObject.level, buildingScriptableObject.nextCost.scale);
+            buildingNextCost = gameMath.getNextUpgradeCost(
+                buildingScriptableObject.initialCost,
+                buildingScriptableObject.growthRate,
+                buildingScriptableObject.level,
+                buildingScriptableObject.nextCost.scale
+            );
 
             buildingScriptableObject.nextCost.value = buildingNextCost.value;
             buildingScriptableObject.nextCost.scale = buildingNextCost.scale;
@@ -68,27 +84,4 @@ public class BuildingController : MonoBehaviour
             return true;
         }
     }
-
-    /**
-     * Gets the difference of nextProduction and actualProduction to show how much it will increase after the upgrade
-     *
-     * @param double nextProduction
-     * @param double actualProduction
-     *
-     * @return double diff
-     */
-    // public static double getNextProductionDiff(double nextProduction, double actualProduction) {
-    //     double diff = nextProduction - actualProduction;
-
-    //     return diff;
-    // }
 }
-
-
-
-// produz 1
-// custa 10
-// paga 10
-// atualizar custo de compra
-// atualizar produção de recurso
-// gerar valor de produção do próximo upgrade

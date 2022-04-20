@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameMath {
+public class GameMath : MonoBehaviour {
     /**
      * Generate the next upgrade cost of click or employee
      *
@@ -12,7 +12,7 @@ public static class GameMath {
      *
      * @return string nextProductionRate
      */
-    public static string getNextProductionRate(double initialProduction, int level, double globalMultiplier = 1, double buildingMultiplier = 1) {
+    public string getNextProductionRate(double initialProduction, int level, double globalMultiplier = 1, double buildingMultiplier = 1) {
         double nextProductionRate = ((initialProduction * level) * globalMultiplier) * buildingMultiplier;
 
         return nextProductionRate.ToString("N2");
@@ -27,7 +27,7 @@ public static class GameMath {
      *
      * @return Value nextCost
      */
-    public static Value getNextUpgradeCost(double initialCost, double growthRate, int level, int scale) {
+    public Value getNextUpgradeCost(double initialCost, double growthRate, int level, int scale) {
         Value nextCost = new Value();
         nextCost.scale = 0;
 
