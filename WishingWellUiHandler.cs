@@ -36,9 +36,6 @@ public class WishingWellUiHandler : MonoBehaviour {
         rewardValue = Currency.add(goldController.getGold().value, goldController.getGold().scale, rewardValue.value, rewardValue.scale);
 
         goldController.setGold(rewardValue);
-
-        // Souls.totalSouls.value = rewardValue.value;
-        // Souls.totalSouls.scale = rewardValue.scale;
     }
 
     public void setTimeLeftToCollectText(string text) {

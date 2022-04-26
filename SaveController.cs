@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveController : MonoBehaviour {
-    public static void saveGame() {
+    public void saveGame() {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Path.Combine(Application.persistentDataPath, "player.save");
 
@@ -18,7 +18,7 @@ public class SaveController : MonoBehaviour {
         stream.Close();
     }
 
-    public static PlayerData loadGame() {
+    public PlayerData loadGame() {
         string path = Path.Combine(Application.persistentDataPath, "player.save");
 
         if (File.Exists(path)) {

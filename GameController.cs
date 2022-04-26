@@ -19,13 +19,12 @@ public class GameController : MonoBehaviour {
 
     public BuildingScriptableObject houseScriptableObject;
 
+    [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GoldController goldController;
 
     void Start() {
         goldController.setGold(new Value(5f, 0));
-        // Souls.totalSouls.value = 5;
-        // Souls.totalSouls.scale = 0;
 
         loadGame();
     }
@@ -55,8 +54,6 @@ public class GameController : MonoBehaviour {
 
             goldController.setGold(valueClass);
 
-            // Souls.totalSouls.value = valueClass.value;
-            // Souls.totalSouls.scale = valueClass.scale;
             time = 1f;
         }
 
@@ -109,8 +106,6 @@ public class GameController : MonoBehaviour {
             throw new System.Exception("Building not found");
         }
 
-        // BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
-
         return buildingController;
     }
 
@@ -150,9 +145,6 @@ public class GameController : MonoBehaviour {
             tempValue.scale++;
 
             goldController.setGold(tempValue);
-            // goldController.setGold(new Value(goldController.getGold().value /= 1000000), goldController.getGold().scale++);
-            // Souls.totalSouls.value /= 1000000;
-            // Souls.totalSouls.scale++;
         }
 
         soulsText.text = "Souls: " + goldController.getGold().value.ToString("N2") + Currency.suifx[goldController.getGold().scale];
@@ -168,17 +160,15 @@ public class GameController : MonoBehaviour {
     }
 
     public void saveGame() {
-        SaveController.saveGame();
+        saveController.saveGame();
     }
 
     public void loadGame() {
         // Debug.Log("LoadGame");
-        PlayerData data = SaveController.loadGame();
+        PlayerData data = saveController.loadGame();
 
         if (data != null) {
             goldController.setGold(new Value(data.totalSoulsValue, data.totalSoulsScale));
-            // Souls.totalSouls.value = data.totalSoulsValue;
-            // Souls.totalSouls.scale = data.totalSoulsScale;
 
             lastTimeOnline = data.lastTimeOnline;
 
@@ -219,9 +209,6 @@ public class GameController : MonoBehaviour {
         Value valueClass = Currency.add(goldController.getGold().value, goldController.getGold().scale, offlineEarnings.value, offlineEarnings.scale);
 
         goldController.setGold(valueClass);
-
-        // Souls.totalSouls.value = valueClass.value;
-        // Souls.totalSouls.scale = valueClass.scale;
 
         while (offlineEarnings.value > 1000000) {
             offlineEarnings.value /= 1000000;

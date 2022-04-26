@@ -52,8 +52,6 @@ public class BuildingController : MonoBehaviour
             return false;
         } else {
             goldController.setGold(valueClass);
-            // currencyController..totalSouls.value = valueClass.value;
-            // currencyController..totalSouls.scale = valueClass.scale;
 
             buildingScriptableObject.actualProduction.value = buildingScriptableObject.nextProduction.value;
             buildingScriptableObject.level++;
