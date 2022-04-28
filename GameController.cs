@@ -32,7 +32,9 @@ public class GameController : MonoBehaviour {
     void Update() {
         checkForScaleChange();
 
-        foreach (Building building in Buildings.buildingsList) {
+        List<BuildingScriptableObject> goldGeneratorBuildings = getGoldGeneratorBuildings();
+
+        foreach (BuildingScriptableObject building in goldGeneratorBuildings) {
             if (building.actualProduction.value > 1000000) {
                 building.actualProduction.value /= 1000000;
                 building.actualProduction.scale++;
@@ -176,8 +178,10 @@ public class GameController : MonoBehaviour {
 
             Modifiers.globalMultiplier = data.multiplier;
 
+            List<BuildingScriptableObject> goldGeneratorBuildings = getGoldGeneratorBuildings();
+
             int counter = 0;
-            foreach (Building building in Buildings.buildingsList) {
+            foreach (BuildingScriptableObject building in goldGeneratorBuildings) {
                 building.level = data.buildingLevel[counter];
                 building.initialProduction = data.buildingInitialProduction[counter];
                 building.initialCost = data.buildingInitialCost[counter];
@@ -197,6 +201,17 @@ public class GameController : MonoBehaviour {
             // Debug.Log("No game to load");
             GameController.wishingWellLastCollectedTime = new System.DateTime(2000, 01, 01).ToString();
         }
+    }
+
+    public List<BuildingScriptableObject> getGoldGeneratorBuildings() {
+        List<BuildingScriptableObject> goldGeneratorBuildings = new List<BuildingScriptableObject>();
+        GameObject[] buildings = GameObject.FindGameObjectsWithTag("GoldGeneratorBuilding");
+
+        foreach (GameObject building in buildings) {
+            goldGeneratorBuildings.Add(building.GetComponent<BuildingController>().getScriptableObject());
+        }
+
+        return goldGeneratorBuildings;
     }
 
     void getOfflineEarnings() {

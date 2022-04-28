@@ -12,21 +12,26 @@ public class PlayerData {
 
     public double multiplier;
 
-    public int[] buildingLevel = new int[12];
-    public double[] buildingInitialProduction = new double[12];
-    public double[] buildingInitialCost = new double[12];
-    public double[] buildingGrowthRate = new double[12];
-    public double[] buildingActualProductionValue = new double[12];
-    public int[] buildingActualProductionScale = new int[12];
-    public double[] buildingNextProductionValue = new double[12];
-    public int[] buildingNextProductionScale = new int[12];
-    public double[] buildingNextCostValue = new double[12];
-    public int[] buildingNextCostScale = new int[12];
-    public double[] buildingMultiplier = new double[12];
+    public int[] buildingLevel = new int[8];
+    public double[] buildingInitialProduction = new double[8];
+    public double[] buildingInitialCost = new double[8];
+    public double[] buildingGrowthRate = new double[8];
+    public double[] buildingActualProductionValue = new double[8];
+    public int[] buildingActualProductionScale = new int[8];
+    public double[] buildingNextProductionValue = new double[8];
+    public int[] buildingNextProductionScale = new int[8];
+    public double[] buildingNextCostValue = new double[8];
+    public int[] buildingNextCostScale = new int[8];
+    public double[] buildingMultiplier = new double[8];
 
     public PlayerData() {
-        totalSoulsValue = getGoldValue().value;
-        totalSoulsScale = getGoldValue().scale;
+        GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
+        List<BuildingScriptableObject> goldGeneratorBuildingsScriptableObject = gameController.GetComponent<GameController>().getGoldGeneratorBuildings();
+
+        GoldController goldController = GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>();
+
+        totalSoulsValue = goldController.getGold().value;
+        totalSoulsScale = goldController.getGold().scale;
 
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
@@ -35,7 +40,7 @@ public class PlayerData {
 
         int counter = 0;
 
-        foreach (Building building in Buildings.buildingsList) {
+        foreach (BuildingScriptableObject building in goldGeneratorBuildingsScriptableObject) {
             buildingLevel[counter] = building.level;
             buildingInitialProduction[counter] = building.initialProduction;
             buildingInitialCost[counter] = building.initialCost;
@@ -49,9 +54,5 @@ public class PlayerData {
             buildingMultiplier[counter] = building.buildingMultiplier;
             counter++;
         }
-    }
-
-    private Value getGoldValue() {
-        return GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>().getGold();
     }
 }

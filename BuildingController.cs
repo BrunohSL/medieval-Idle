@@ -5,8 +5,7 @@ using UnityEngine;
 // Responsabilidades
 // atualizar valores do scriptableObject da construção
 // definir 'sprite' da construção, predio demolido caso seja lvl 0 ou modelo certo da construção
-public class BuildingController : MonoBehaviour
-{
+public class BuildingController : MonoBehaviour {
     [SerializeField] private BuildingScriptableObject buildingScriptableObject;
     [SerializeField] private GameMath gameMath;
     [SerializeField] private GoldController goldController;
