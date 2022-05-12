@@ -145,19 +145,40 @@ public static class Currency {
         }
     }
 
-    public static Value multiply(double value, int scale, double multiplier) {
+    public static Value multiply(Value value, double multiplier) {
         Value valueClass = new Value();
 
-        value *= multiplier;
+        value.value *= multiplier;
 
-        while (value > 1000000) {
-            value /= 1000000;
-            scale++;
+        while (value.value > 1000000) {
+            value.value /= 1000000;
+            value.scale++;
         }
 
-        valueClass.value = value;
-        valueClass.scale = scale;
+        valueClass = value;
 
         return valueClass;
+    }
+
+    public static Value divide(Value dividend, double divisor) {
+        Value valueClass = new Value();
+
+        if (dividend.value < divisor && dividend.scale <= 0) {
+            throw new System.Exception("Valor do dividendo menor que o divisor");
+        }
+
+        if (dividend.value < divisor && dividend.scale > 0) {
+            dividend.scale--;
+            dividend.value *= 1000000;
+        }
+
+        valueClass.value = dividend.value / divisor;
+
+        if (valueClass.value > 1000000) {
+            valueClass.value /= 1000000;
+            valueClass.scale++;
+        }
+
+        return new Value();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 
     public Text soulsText;
     public Text productionText;
+    public Text wisdomText;
     public Value offlineEarnings;
 
     public GameObject upgradeBuildingUi;
@@ -21,10 +22,10 @@ public class GameController : MonoBehaviour {
 
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private GoldController goldController;
+    [SerializeField] private CurrencyController _currencyController;
 
     void Start() {
-        goldController.setGold(new Value(5f, 0));
+        _currencyController.setGold(new Value(5f, 0));
 
         loadGame();
     }
@@ -51,10 +52,11 @@ public class GameController : MonoBehaviour {
         time -= Time.deltaTime;
         if (time <= 0) {
             Value totalProduction = getBuildingTotalProduction();
-            productionText.text = totalProduction.value.ToString();
-            Value valueClass = Currency.add(goldController.getGold().value, goldController.getGold().scale, totalProduction.value, totalProduction.scale);
+            productionText.text = "Total production: " + totalProduction.value.ToString();
+            wisdomText.text = "Total Wisdom Value: ";
+            Value valueClass = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, totalProduction.value, totalProduction.scale);
 
-            goldController.setGold(valueClass);
+            _currencyController.setGold(valueClass);
 
             time = 1f;
         }
@@ -141,24 +143,33 @@ public class GameController : MonoBehaviour {
      * Handles the transition in scale of values
      */
     public void checkForScaleChange() {
-        if (goldController.getGold().value > 1000000) {
-            Value tempValue = new Value(goldController.getGold().value, goldController.getGold().scale);
+        if (_currencyController.getGold().value > 1000000) {
+            Value tempValue = new Value(_currencyController.getGold().value, _currencyController.getGold().scale);
             tempValue.value /= 1000000;
             tempValue.scale++;
 
-            goldController.setGold(tempValue);
+            _currencyController.setGold(tempValue);
         }
 
-        soulsText.text = "Souls: " + goldController.getGold().value.ToString("N2") + Currency.suifx[goldController.getGold().scale];
+        soulsText.text = "Souls: " + _currencyController.getGold().value.ToString("N2") + Currency.suifx[_currencyController.getGold().scale];
     }
 
-    public void resetButton() {
+    public void reset() {
         houseScriptableObject.actualProduction.value = 0;
         houseScriptableObject.nextProduction.value = 2;
         houseScriptableObject.nextCost.value = 5;
         houseScriptableObject.level = 0;
 
-        goldController.setGold(new Value(5f, 0));
+        _currencyController.setGold(new Value(5f, 0));
+    }
+
+    public void clearButton() {
+        reset();
+    }
+
+    public void resetButton() {
+        reset();
+
     }
 
     public void saveGame() {
@@ -170,7 +181,7 @@ public class GameController : MonoBehaviour {
         PlayerData data = saveController.loadGame();
 
         if (data != null) {
-            goldController.setGold(new Value(data.totalSoulsValue, data.totalSoulsScale));
+            _currencyController.setGold(new Value(data.totalSoulsValue, data.totalSoulsScale));
 
             lastTimeOnline = data.lastTimeOnline;
 
@@ -221,9 +232,9 @@ public class GameController : MonoBehaviour {
         offlineEarnings.value = double.Parse(diffInSeconds) * actualProduction.value;
         offlineEarnings.scale = actualProduction.scale;
 
-        Value valueClass = Currency.add(goldController.getGold().value, goldController.getGold().scale, offlineEarnings.value, offlineEarnings.scale);
+        Value valueClass = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, offlineEarnings.value, offlineEarnings.scale);
 
-        goldController.setGold(valueClass);
+        _currencyController.setGold(valueClass);
 
         while (offlineEarnings.value > 1000000) {
             offlineEarnings.value /= 1000000;

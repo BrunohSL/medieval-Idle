@@ -8,7 +8,7 @@ public class WishingWellUiHandler : MonoBehaviour {
     public Text timeLeftToCollectText;
     public GameObject wishingWellUiPanel;
 
-    [SerializeField] private GoldController goldController;
+    [SerializeField] private CurrencyController _currencyController;
 
     void Start() {
         collectButton.onClick.AddListener(delegate { collectWishingWellReward(); });
@@ -31,11 +31,11 @@ public class WishingWellUiHandler : MonoBehaviour {
         wishingWellController.setCollectedTime(System.DateTime.Now.ToString());
 
         Value actualProduction = GameObject.Find("gameController").GetComponent<GameController>().getBuildingTotalProduction();
-        Value rewardValue = Currency.multiply(actualProduction.value, actualProduction.scale, 5f);
+        Value rewardValue = Currency.multiply(actualProduction, 5f);
 
-        rewardValue = Currency.add(goldController.getGold().value, goldController.getGold().scale, rewardValue.value, rewardValue.scale);
+        rewardValue = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, rewardValue.value, rewardValue.scale);
 
-        goldController.setGold(rewardValue);
+        _currencyController.setGold(rewardValue);
     }
 
     public void setTimeLeftToCollectText(string text) {

@@ -28,10 +28,10 @@ public class PlayerData {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         List<BuildingScriptableObject> goldGeneratorBuildingsScriptableObject = gameController.GetComponent<GameController>().getGoldGeneratorBuildings();
 
-        GoldController goldController = GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>();
+        CurrencyController currencyController = gameController.GetComponent<CurrencyController>();
 
-        totalSoulsValue = goldController.getGold().value;
-        totalSoulsScale = goldController.getGold().scale;
+        totalSoulsValue = currencyController.getGold().value;
+        totalSoulsScale = currencyController.getGold().scale;
 
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;

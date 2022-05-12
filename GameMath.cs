@@ -42,4 +42,17 @@ public class GameMath : MonoBehaviour {
 
         return nextCost;
     }
+
+    /**
+     * Apenas se valor de gold for maior que 100.000
+     */
+    public Value getPrestige(Value currentGold) {
+        Value valueClass = new Value();
+
+        valueClass = Currency.divide(currentGold, 100000);
+
+        valueClass = Currency.multiply(valueClass, 1);
+
+        return valueClass;
+    }
 }

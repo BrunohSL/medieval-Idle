@@ -2,18 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Responsabilidades
-// atualizar valores do scriptableObject da construção
-// definir 'sprite' da construção, predio demolido caso seja lvl 0 ou modelo certo da construção
 public class BuildingController : MonoBehaviour {
-    [SerializeField] private BuildingScriptableObject buildingScriptableObject;
     [SerializeField] private GameMath gameMath;
-    [SerializeField] private GoldController goldController;
-
-    void Awake() {
-        gameMath = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameMath>();
-        goldController = GameObject.FindGameObjectWithTag("CurrencyController").GetComponent<GoldController>();
-    }
+    [SerializeField] private BuildingScriptableObject buildingScriptableObject;
+    [SerializeField] private CurrencyController _currencyController;
 
     public BuildingScriptableObject getScriptableObject() {
         return buildingScriptableObject;
@@ -44,13 +36,13 @@ public class BuildingController : MonoBehaviour {
     public bool levelUpBuilding() {
         Value valueClass = new Value();
 
-        valueClass = Currency.subtract(goldController.getGold().value, goldController.getGold().scale, buildingScriptableObject.nextCost.value, buildingScriptableObject.nextCost.scale);
+        valueClass = Currency.subtract(_currencyController.getGold().value, _currencyController.getGold().scale, buildingScriptableObject.nextCost.value, buildingScriptableObject.nextCost.scale);
 
         if (valueClass == null) {
             Debug.Log("Valor negativo aqui (valor de custo do próximo upgrade é muito caro)");
             return false;
         } else {
-            goldController.setGold(valueClass);
+            _currencyController.setGold(valueClass);
 
             buildingScriptableObject.actualProduction.value = buildingScriptableObject.nextProduction.value;
             buildingScriptableObject.level++;
