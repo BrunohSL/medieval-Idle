@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CurrencyController _currencyController;
+    [SerializeField] private GameMath _gameMath;
 
     void Start() {
         _currencyController.setGold(new Value(5f, 0));
@@ -163,13 +164,21 @@ public class GameController : MonoBehaviour {
         _currencyController.setGold(new Value(5f, 0));
     }
 
-    public void clearButton() {
+    public void resetButton() {
         reset();
     }
 
-    public void resetButton() {
-        reset();
+    public void prestigeButton() {
+        Value prestigeValue = new Value();
 
+        if (_currencyController.getGold().scale > 0 || (_currencyController.getGold().scale == 0 && _currencyController.getGold().value >= 100000f)) {
+            prestigeValue = _gameMath.getPrestige(_currencyController.getGold());
+            prestigeValue = Currency.add(_currencyController.getWisdom(), prestigeValue);
+            _currencyController.setWisdom(prestigeValue);
+            reset();
+        } else {
+            Debug.Log("Not enough gold to prestige");
+        }
     }
 
     public void saveGame() {

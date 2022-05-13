@@ -174,6 +174,6 @@ public static class Currency {
             valueClass.scale++;
         }
 
-        return new Value();
+        return valueClass;
     }
 }
