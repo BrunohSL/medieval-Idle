@@ -33,7 +33,7 @@ public class WishingWellUiHandler : MonoBehaviour {
         Value actualProduction = GameObject.Find("gameController").GetComponent<GameController>().getBuildingTotalProduction();
         Value rewardValue = Currency.multiply(actualProduction, 5f);
 
-        rewardValue = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, rewardValue.value, rewardValue.scale);
+        rewardValue = Currency.add(_currencyController.getGold(), rewardValue);
 
         _currencyController.setGold(rewardValue);
     }

@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour {
             Value totalProduction = getBuildingTotalProduction();
             productionText.text = "Total production: " + totalProduction.value.ToString();
             wisdomText.text = "Total Wisdom Value: ";
-            Value valueClass = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, totalProduction.value, totalProduction.scale);
+            Value valueClass = Currency.add(_currencyController.getGold(), totalProduction);
 
             _currencyController.setGold(valueClass);
 
@@ -232,7 +232,7 @@ public class GameController : MonoBehaviour {
         offlineEarnings.value = double.Parse(diffInSeconds) * actualProduction.value;
         offlineEarnings.scale = actualProduction.scale;
 
-        Value valueClass = Currency.add(_currencyController.getGold().value, _currencyController.getGold().scale, offlineEarnings.value, offlineEarnings.scale);
+        Value valueClass = Currency.add(_currencyController.getGold(), offlineEarnings);
 
         _currencyController.setGold(valueClass);
 

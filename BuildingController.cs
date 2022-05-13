@@ -36,7 +36,7 @@ public class BuildingController : MonoBehaviour {
     public bool levelUpBuilding() {
         Value valueClass = new Value();
 
-        valueClass = Currency.subtract(_currencyController.getGold().value, _currencyController.getGold().scale, buildingScriptableObject.nextCost.value, buildingScriptableObject.nextCost.scale);
+        valueClass = Currency.subtract(_currencyController.getGold(), buildingScriptableObject.nextCost);
 
         if (valueClass == null) {
             Debug.Log("Valor negativo aqui (valor de custo do próximo upgrade é muito caro)");

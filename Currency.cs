@@ -38,55 +38,53 @@ public static class Currency {
     /**
      * Handles the sum of two values, uses the scale to make the sum
      *
-     * @param double totalSouls    First value, this will receive the second parameter value
-     * @param int totalSoulsScale  First value scale, used to make the sum
-     * @param double value         Second value, this will be added to the first value
-     * @param int valueScale       Second value scale, used to make the sum
+     * @param Value firstValue     First value of the operation
+     * @param Value secondValue    Second value of the operation
      *
      * @return Value valueClass    Return a instance of valueClass with the sum result of the two values
      */
-    public static Value add(double totalSouls, int totalSoulsScale, double value, int valueScale) {
+    public static Value add(Value firstValue, Value secondValue) {
         Value valueClass = new Value();
 
-        if (totalSoulsScale != valueScale) {
-            int scaleDiff = totalSoulsScale - valueScale;
+        if (firstValue.scale != secondValue.scale) {
+            int scaleDiff = firstValue.scale - secondValue.scale;
 
             if (scaleDiff < -2 || scaleDiff > 2) {
                 if (scaleDiff > 0) {
-                    valueClass.value = double.Parse(totalSouls.ToString("N3"));
-                    valueClass.scale = totalSoulsScale;
+                    valueClass.value = double.Parse(firstValue.value.ToString("N3"));
+                    valueClass.scale = firstValue.scale;
 
                     return valueClass;
                 } else {
-                    valueClass.value = value;
-                    valueClass.scale = valueScale;
+                    valueClass.value = secondValue.value;
+                    valueClass.scale = secondValue.scale;
 
                     return valueClass;
                 }
             }
 
-            if (totalSoulsScale > valueScale) {
-                if (totalSoulsScale > 0) {
-                    totalSoulsScale--;
-                    totalSouls *= 1000000;
-                    valueClass = add(totalSouls, totalSoulsScale, value, valueScale);
+            if (firstValue.scale > secondValue.scale) {
+                if (firstValue.scale > 0) {
+                    firstValue.scale--;
+                    firstValue.value *= 1000000;
+                    valueClass = add(firstValue, secondValue);
                 }
             }
 
-            if (totalSoulsScale < valueScale) {
-                if (valueScale > 0) {
-                    valueScale--;
-                    value *= 1000000;
-                    valueClass = add(totalSouls, totalSoulsScale, value, valueScale);
+            if (firstValue.scale < secondValue.scale) {
+                if (secondValue.scale > 0) {
+                    secondValue.scale--;
+                    secondValue.value *= 1000000;
+                    valueClass = add(firstValue, secondValue);
                 }
             }
 
             return valueClass;
         } else {
-            totalSouls += value;
+            firstValue.value += secondValue.value;
 
-            valueClass.value = double.Parse(totalSouls.ToString("N3"));
-            valueClass.scale = totalSoulsScale;
+            valueClass.value = double.Parse(firstValue.value.ToString("N3"));
+            valueClass.scale = firstValue.scale;
 
             return valueClass;
         }
@@ -95,50 +93,47 @@ public static class Currency {
     /**
      * Handles the subtraction of two values, uses the scale to make the subtraction
      *
-     * @param double totalSouls    First value, this will receive the second parameter value
-     * @param int totalSoulsScale  First value scale, used to make the subtraction
-     * @param double value         Second value, this will be added to the first value
-     * @param int valueScale       Second value scale, used to make the subtraction
+     * @param Value firstValue     First value of the operation
+     * @param Value secondValue    Second value of the operation
      *
      * @return Value valueClass    Return a instance of valueClass with the subtraction result of the two values
      * @return Value null          Return null if the subtraction result is lower than 0
      */
-    public static Value subtract(double totalSouls, int totalSoulsScale, double value, int valueScale) {
+    public static Value subtract(Value firstValue, Value secondValue) {
         Value valueClass = new Value();
 
-        if (totalSoulsScale != valueScale) {
-            int scaleDiff = totalSoulsScale - valueScale;
+        if (firstValue.scale != secondValue.scale) {
+            int scaleDiff = firstValue.scale - secondValue.scale;
 
-            if (scaleDiff < -2 || scaleDiff > 2) {
-
-                if (scaleDiff > 0) {
-                    valueClass.value = double.Parse(totalSouls.ToString("N3"));
-                    valueClass.scale = totalSoulsScale;
+            if ((scaleDiff < -2 || scaleDiff > 2) && scaleDiff > 0) {
+                // if (scaleDiff > 0) {
+                    valueClass.value = double.Parse(firstValue.value.ToString("N3"));
+                    valueClass.scale = firstValue.scale;
 
                     return valueClass;
+                // }
+            }
+
+            if (firstValue.scale > secondValue.scale) {
+                if (firstValue.scale > 0) {
+                    firstValue.scale--;
+                    firstValue.value *= 1000000;
+                    valueClass = subtract(firstValue, secondValue);
                 }
             }
 
-            if (totalSoulsScale > valueScale) {
-                if (totalSoulsScale > 0) {
-                    totalSoulsScale--;
-                    totalSouls *= 1000000;
-                    valueClass = subtract(totalSouls, totalSoulsScale, value, valueScale);
-                }
-            }
-
-            if (totalSoulsScale < valueScale) {
+            if (firstValue.scale < secondValue.scale) {
                 return null;
             }
 
             return valueClass;
         } else {
-            if ((totalSouls - value) < 0) {
+            if ((firstValue.value - secondValue.value) < 0) {
                 return null;
             } else {
-                totalSouls -= value;
-                valueClass.value = totalSouls;
-                valueClass.scale = totalSoulsScale;
+                firstValue.value -= secondValue.value;
+                valueClass.value = firstValue.value;
+                valueClass.scale = firstValue.scale;
             }
 
             return valueClass;
