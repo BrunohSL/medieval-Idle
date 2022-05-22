@@ -13,9 +13,10 @@ public class GameController : MonoBehaviour {
     public Text wisdomText;
     public Value offlineEarnings;
 
-    public GameObject upgradeBuildingUi;
     public BuildingUiHandler buildingUiHandler;
+    public GameObject upgradeBuildingUi;
     public GameObject wishingWellUi;
+    public GameObject libraryUi;
     public bool buildingUpgradeUiOpen = false;
 
     public BuildingScriptableObject houseScriptableObject;
@@ -53,8 +54,8 @@ public class GameController : MonoBehaviour {
         time -= Time.deltaTime;
         if (time <= 0) {
             Value totalProduction = getBuildingTotalProduction();
-            productionText.text = "Total production: " + totalProduction.value.ToString();
-            wisdomText.text = "Total Wisdom Value: ";
+            productionText.text = "Production: " + totalProduction.value.ToString();
+            wisdomText.text = "Wisdom: " + _currencyController.getWisdom().value;
             Value valueClass = Currency.add(_currencyController.getGold(), totalProduction);
 
             _currencyController.setGold(valueClass);
@@ -84,6 +85,10 @@ public class GameController : MonoBehaviour {
                 }
                 if (raycastHit.collider.name == "foodShop") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
+                }
+
+                if (raycastHit.collider.name == "library") {
+                    libraryUi.SetActive(true);
                 }
             }
         }
@@ -156,10 +161,22 @@ public class GameController : MonoBehaviour {
     }
 
     public void reset() {
-        houseScriptableObject.actualProduction.value = 0;
-        houseScriptableObject.nextProduction.value = 2;
-        houseScriptableObject.nextCost.value = 5;
         houseScriptableObject.level = 0;
+        houseScriptableObject.initialProduction = 1;
+        houseScriptableObject.initialCost = 5;
+        houseScriptableObject.growthRate = 1.07f;
+
+        houseScriptableObject.actualProduction.value = 0;
+        houseScriptableObject.actualProduction.scale = 0;
+
+        houseScriptableObject.nextProduction.value = 2;
+        houseScriptableObject.nextProduction.scale = 0;
+
+        houseScriptableObject.nextCost.value = 5;
+        houseScriptableObject.nextCost.scale = 0;
+
+        houseScriptableObject.tierlistRank = 0;
+        houseScriptableObject.buildingMultiplier = 0;
 
         _currencyController.setGold(new Value(5f, 0));
     }
@@ -190,7 +207,8 @@ public class GameController : MonoBehaviour {
         PlayerData data = saveController.loadGame();
 
         if (data != null) {
-            _currencyController.setGold(new Value(data.totalSoulsValue, data.totalSoulsScale));
+            _currencyController.setGold(new Value(data.totalGoldValue, data.totalGoldScale));
+            _currencyController.setWisdom(new Value(data.totalWisdomValue, data.totalWisdomScale));
 
             lastTimeOnline = data.lastTimeOnline;
 

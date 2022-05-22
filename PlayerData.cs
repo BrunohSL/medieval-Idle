@@ -4,8 +4,10 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerData {
-    public double totalSoulsValue;
-    public int totalSoulsScale;
+    public double totalGoldValue;
+    public int totalGoldScale;
+    public double totalWisdomValue;
+    public int totalWisdomScale;
 
     public string lastTimeOnline;
     public string wishingWellLastCollectedTime;
@@ -30,8 +32,10 @@ public class PlayerData {
 
         CurrencyController currencyController = gameController.GetComponent<CurrencyController>();
 
-        totalSoulsValue = currencyController.getGold().value;
-        totalSoulsScale = currencyController.getGold().scale;
+        totalGoldValue = currencyController.getGold().value;
+        totalGoldScale = currencyController.getGold().scale;
+        totalWisdomValue = currencyController.getWisdom().value;
+        totalWisdomScale = currencyController.getWisdom().scale;
 
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
