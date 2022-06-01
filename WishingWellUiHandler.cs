@@ -7,6 +7,7 @@ public class WishingWellUiHandler : MonoBehaviour {
     public Button collectButton;
     public Text timeLeftToCollectText;
     public GameObject wishingWellUiPanel;
+    public GameController gameController;
 
     [SerializeField] private CurrencyController _currencyController;
 
@@ -30,7 +31,7 @@ public class WishingWellUiHandler : MonoBehaviour {
         WishingWellController wishingWellController = GameObject.Find("wishingWell").GetComponent<WishingWellController>();
         wishingWellController.setCollectedTime(System.DateTime.Now.ToString());
 
-        Value actualProduction = GameObject.Find("gameController").GetComponent<GameController>().getBuildingTotalProduction();
+        Value actualProduction = gameController.getBuildingTotalProduction();
         Value rewardValue = Currency.multiply(actualProduction, 5f);
 
         rewardValue = Currency.add(_currencyController.getGold(), rewardValue);

@@ -17,12 +17,4 @@ public class TabButton : MonoBehaviour, IPointerClickHandler {
     public void OnPointerClick(PointerEventData eventData) {
         tabGroup.onTabSelected(this);
     }
-
-    // public void OnPointerEnter(PointerEventData eventData) {
-    //     tabGroup.onTabEnter(this);
-    // }
-
-    // public void OnPointerExit(PointerEventData eventData) {
-    //     tabGroup.onTabExit(this);
-    // }
 }

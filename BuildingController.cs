@@ -51,8 +51,7 @@ public class BuildingController : MonoBehaviour {
                 gameMath.getNextProductionRate(
                     buildingScriptableObject.initialProduction,
                     buildingScriptableObject.level,
-                    Modifiers.globalMultiplier,
-                    buildingScriptableObject.tierlist.rankMultiplier[buildingScriptableObject.tierlistRank]
+                    buildingScriptableObject.buildingMultiplier
                 )
             );
 

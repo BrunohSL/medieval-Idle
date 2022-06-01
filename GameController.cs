@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,10 @@ public class GameController : MonoBehaviour {
     public string lastTimeOnline;
     public static string wishingWellLastCollectedTime = "";
 
-    public Text soulsText;
-    public Text productionText;
+    public Text goldText;
     public Text wisdomText;
+    public Text productionText;
+
     public Value offlineEarnings;
 
     public BuildingUiHandler buildingUiHandler;
@@ -24,6 +26,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CurrencyController _currencyController;
+    [SerializeField] private ModifierController _modifierController;
     [SerializeField] private GameMath _gameMath;
 
     void Start() {
@@ -55,7 +58,7 @@ public class GameController : MonoBehaviour {
         if (time <= 0) {
             Value totalProduction = getBuildingTotalProduction();
             productionText.text = "Production: " + totalProduction.value.ToString();
-            wisdomText.text = "Wisdom: " + _currencyController.getWisdom().value;
+            wisdomText.text = _currencyController.getWisdom().value.ToString("N2");
             Value valueClass = Currency.add(_currencyController.getGold(), totalProduction);
 
             _currencyController.setGold(valueClass);
@@ -90,6 +93,9 @@ public class GameController : MonoBehaviour {
                 if (raycastHit.collider.name == "library") {
                     libraryUi.SetActive(true);
                 }
+                if (raycastHit.collider.name == "wishingWell") {
+                    wishingWellUi.SetActive(true);
+                }
             }
         }
     }
@@ -120,7 +126,7 @@ public class GameController : MonoBehaviour {
     }
 
     void debug() {
-        if (Input.GetKeyDown(KeyCode.T)) {
+        if (Input.GetKeyDown(KeyCode.Q)) {
             // string today = System.DateTime.Now.ToString();
             // string tomorrow = System.DateTime.Parse(today).AddDays(1).ToString();
 
@@ -157,12 +163,12 @@ public class GameController : MonoBehaviour {
             _currencyController.setGold(tempValue);
         }
 
-        soulsText.text = "Souls: " + _currencyController.getGold().value.ToString("N2") + Currency.suifx[_currencyController.getGold().scale];
+        goldText.text = _currencyController.getGold().value.ToString("N2") + Currency.suifx[_currencyController.getGold().scale];
     }
 
     public void reset() {
         houseScriptableObject.level = 0;
-        houseScriptableObject.initialProduction = 1;
+        houseScriptableObject.initialProduction = 2;
         houseScriptableObject.initialCost = 5;
         houseScriptableObject.growthRate = 1.07f;
 
@@ -176,12 +182,13 @@ public class GameController : MonoBehaviour {
         houseScriptableObject.nextCost.scale = 0;
 
         houseScriptableObject.tierlistRank = 0;
-        houseScriptableObject.buildingMultiplier = 0;
+        houseScriptableObject.buildingMultiplier = 1;
 
         _currencyController.setGold(new Value(5f, 0));
     }
 
     public void resetButton() {
+        _currencyController.setWisdom(new Value(0f, 0));
         reset();
     }
 
@@ -214,7 +221,7 @@ public class GameController : MonoBehaviour {
 
             GameController.wishingWellLastCollectedTime = data.wishingWellLastCollectedTime != "" ? data.wishingWellLastCollectedTime : new System.DateTime(2000, 01, 01).ToString();
 
-            Modifiers.globalMultiplier = data.multiplier;
+            _modifierController.setGlobalMultiplier(data.multiplier);
 
             List<BuildingScriptableObject> goldGeneratorBuildings = getGoldGeneratorBuildings();
 

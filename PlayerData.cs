@@ -31,6 +31,7 @@ public class PlayerData {
         List<BuildingScriptableObject> goldGeneratorBuildingsScriptableObject = gameController.GetComponent<GameController>().getGoldGeneratorBuildings();
 
         CurrencyController currencyController = gameController.GetComponent<CurrencyController>();
+        ModifierController modifierController = gameController.GetComponent<ModifierController>();
 
         totalGoldValue = currencyController.getGold().value;
         totalGoldScale = currencyController.getGold().scale;
@@ -40,7 +41,7 @@ public class PlayerData {
         lastTimeOnline = System.DateTime.Now.ToString();
         wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
 
-        multiplier = Modifiers.globalMultiplier;
+        multiplier = modifierController.getGlobalMultiplier();
 
         int counter = 0;
 

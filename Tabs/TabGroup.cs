@@ -8,7 +8,6 @@ public class TabGroup : MonoBehaviour {
     public List<GameObject> objectsToSwap;
 
     public Sprite tabIdle;
-    // public Sprite tabHover;
     public Sprite tabActive;
     public TabButton selectedTab;
 
@@ -19,17 +18,6 @@ public class TabGroup : MonoBehaviour {
 
         tabButtons.Add(button);
     }
-
-    // public void onTabEnter(TabButton button) {
-    //     resetTabs();
-    //     if (selectedTab == null || button != selectedTab) {
-    //         button.backgroundImage.sprite = tabHover;
-    //     }
-    // }
-
-    // public void onTabExit(TabButton button) {
-    //     resetTabs();
-    // }
 
     public void onTabSelected(TabButton button) {
         selectedTab = button;

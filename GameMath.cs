@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameMath : MonoBehaviour {
+    [SerializeField] private ModifierController _modifierController;
+
     /**
      * Generate the next upgrade cost of click or employee
      *
@@ -12,8 +14,13 @@ public class GameMath : MonoBehaviour {
      *
      * @return string nextProductionRate
      */
-    public string getNextProductionRate(double initialProduction, int level, double globalMultiplier = 1, double buildingMultiplier = 1) {
-        double nextProductionRate = ((initialProduction * level) * globalMultiplier) * buildingMultiplier;
+    public string getNextProductionRate(double initialProduction, int level, double buildingMultiplier = 1) {
+        // Debug.Log(initialProduction);
+        // Debug.Log(level);
+        // Debug.Log(buildingMultiplier);
+        // Debug.Log(_modifierController.getGoldMultiplier());
+        // Debug.Log(_modifierController.getGlobalMultiplier());
+        double nextProductionRate = (((initialProduction * level) * buildingMultiplier) * _modifierController.getGoldMultiplier()) * _modifierController.getGlobalMultiplier();
 
         return nextProductionRate.ToString("N2");
     }
@@ -51,7 +58,8 @@ public class GameMath : MonoBehaviour {
 
         valueClass = Currency.divide(currentGold, 100000);
 
-        valueClass = Currency.multiply(valueClass, 1);
+        valueClass = Currency.multiply(valueClass, _modifierController.getWisdomMultiplier());
+        valueClass = Currency.multiply(valueClass, _modifierController.getGlobalMultiplier());
 
         return valueClass;
     }
