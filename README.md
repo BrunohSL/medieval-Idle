@@ -28,6 +28,25 @@ fifth {
     growth rate: 1,12
 }
 
+
+sixth {
+    initial production: 12240
+    initial cost: 1244160
+    growth rate: 1,11
+}
+
+seventh {
+    initial production: 57840
+    initial cost: 14929920
+    growth rate: 1,10
+}
+
+eighth {
+    initial production: 247660
+    initial cost: 179159040
+    growth rate: 1,09
+}
+
 GV - Graveyard
 CH - Church
 GI - Guillotine

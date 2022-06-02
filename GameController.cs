@@ -22,6 +22,10 @@ public class GameController : MonoBehaviour {
     public bool buildingUpgradeUiOpen = false;
 
     public BuildingScriptableObject houseScriptableObject;
+    public BuildingScriptableObject farmScriptableObject;
+    public BuildingScriptableObject animalFarmScriptableObject;
+    public BuildingScriptableObject foodShopScriptableObject;
+    public BuildingScriptableObject armorShopScriptableObject;
 
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
