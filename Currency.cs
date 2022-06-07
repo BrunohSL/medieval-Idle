@@ -79,12 +79,22 @@ public static class Currency {
                 }
             }
 
+            if (valueClass.value > 1000000) {
+                valueClass.value /= 1000000;
+                valueClass.scale++;
+            }
+
             return valueClass;
         } else {
             firstValue.value += secondValue.value;
 
             valueClass.value = double.Parse(firstValue.value.ToString("N3"));
             valueClass.scale = firstValue.scale;
+
+            if (valueClass.value > 1000000) {
+                valueClass.value /= 1000000;
+                valueClass.scale++;
+            }
 
             return valueClass;
         }
@@ -106,12 +116,10 @@ public static class Currency {
             int scaleDiff = firstValue.scale - secondValue.scale;
 
             if ((scaleDiff < -2 || scaleDiff > 2) && scaleDiff > 0) {
-                // if (scaleDiff > 0) {
-                    valueClass.value = double.Parse(firstValue.value.ToString("N3"));
-                    valueClass.scale = firstValue.scale;
+                valueClass.value = double.Parse(firstValue.value.ToString("N3"));
+                valueClass.scale = firstValue.scale;
 
-                    return valueClass;
-                // }
+                return valueClass;
             }
 
             if (firstValue.scale > secondValue.scale) {
