@@ -21,20 +21,12 @@ public class GameController : MonoBehaviour {
     public GameObject libraryUi;
     public bool buildingUpgradeUiOpen = false;
 
-    // public BuildingScriptableObject houseScriptableObject;
-    // public BuildingScriptableObject farmScriptableObject;
-    // public BuildingScriptableObject animalFarmScriptableObject;
-    // public BuildingScriptableObject foodShopScriptableObject;
-    // public BuildingScriptableObject armorShopScriptableObject;
-    // public BuildingScriptableObject weaponShopScriptableObject;
-    // public BuildingScriptableObject cemeteryShopScriptableObject;
-    // public BuildingScriptableObject churchShopScriptableObject;
-
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CurrencyController _currencyController;
     [SerializeField] private ModifierController _modifierController;
     [SerializeField] private GoldBuildingsController _goldBuildingsController;
+    [SerializeField] private UpgradesController _upgradesController;
     [SerializeField] private GameMath _gameMath;
 
     void Start() {
@@ -59,8 +51,6 @@ public class GameController : MonoBehaviour {
                 building.nextProduction.scale++;
             }
         }
-
-        debug();
 
         time -= Time.deltaTime;
         if (time <= 0) {
@@ -139,15 +129,6 @@ public class GameController : MonoBehaviour {
         return buildingController;
     }
 
-    void debug() {
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            // string today = System.DateTime.Now.ToString();
-            // string tomorrow = System.DateTime.Parse(today).AddDays(1).ToString();
-
-            // var diffInSeconds = (System.DateTime.Parse(tomorrow) - System.DateTime.Parse(today)).TotalSeconds;
-        }
-    }
-
     /**
      * Run through the buildings and sum the production value
      */
@@ -183,6 +164,10 @@ public class GameController : MonoBehaviour {
     public void reset() {
         _goldBuildingsController.setBuildingsOriginalValues();
         _currencyController.setGold(new Value(5f, 0));
+    }
+
+    public void resetMultipliersButton() {
+        _upgradesController.setUpgradesOriginalValues();
     }
 
     public void resetButton() {
