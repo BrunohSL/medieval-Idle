@@ -15,11 +15,11 @@ public class GameMath : MonoBehaviour {
      * @return string nextProductionRate
      */
     public string getNextProductionRate(double initialProduction, int level, double buildingMultiplier = 1) {
-        // Debug.Log(initialProduction);
-        // Debug.Log(level);
-        // Debug.Log(buildingMultiplier);
-        // Debug.Log(_modifierController.getGoldMultiplier());
-        // Debug.Log(_modifierController.getGlobalMultiplier());
+        Debug.Log("initialProduction: " + initialProduction.ToString());
+        Debug.Log("level: " + level.ToString());
+        Debug.Log("buildingMultiplier: " + buildingMultiplier.ToString());
+        Debug.Log("goldMultiplier: " + _modifierController.getGoldMultiplier().ToString());
+        Debug.Log("globalMultiplier: " + _modifierController.getGlobalMultiplier().ToString());
         double nextProductionRate = (((initialProduction * level) * buildingMultiplier) * _modifierController.getGoldMultiplier()) * _modifierController.getGlobalMultiplier();
 
         return nextProductionRate.ToString("N2");

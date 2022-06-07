@@ -21,16 +21,20 @@ public class GameController : MonoBehaviour {
     public GameObject libraryUi;
     public bool buildingUpgradeUiOpen = false;
 
-    public BuildingScriptableObject houseScriptableObject;
-    public BuildingScriptableObject farmScriptableObject;
-    public BuildingScriptableObject animalFarmScriptableObject;
-    public BuildingScriptableObject foodShopScriptableObject;
-    public BuildingScriptableObject armorShopScriptableObject;
+    // public BuildingScriptableObject houseScriptableObject;
+    // public BuildingScriptableObject farmScriptableObject;
+    // public BuildingScriptableObject animalFarmScriptableObject;
+    // public BuildingScriptableObject foodShopScriptableObject;
+    // public BuildingScriptableObject armorShopScriptableObject;
+    // public BuildingScriptableObject weaponShopScriptableObject;
+    // public BuildingScriptableObject cemeteryShopScriptableObject;
+    // public BuildingScriptableObject churchShopScriptableObject;
 
     [SerializeField] private SaveController saveController;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CurrencyController _currencyController;
     [SerializeField] private ModifierController _modifierController;
+    [SerializeField] private GoldBuildingsController _goldBuildingsController;
     [SerializeField] private GameMath _gameMath;
 
     void Start() {
@@ -78,19 +82,25 @@ public class GameController : MonoBehaviour {
                 if (raycastHit.collider.name == "house") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
-                if (raycastHit.collider.name == "church") {
-                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
-                }
                 if (raycastHit.collider.name == "farm") {
-                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
-                }
-                if (raycastHit.collider.name == "armorShop") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
                 if (raycastHit.collider.name == "animalFarm") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
                 if (raycastHit.collider.name == "foodShop") {
+                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
+                }
+                if (raycastHit.collider.name == "armorShop") {
+                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
+                }
+                if (raycastHit.collider.name == "weaponShop") {
+                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
+                }
+                if (raycastHit.collider.name == "church") {
+                    buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
+                }
+                if (raycastHit.collider.name == "graveyrd") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
 
@@ -171,28 +181,16 @@ public class GameController : MonoBehaviour {
     }
 
     public void reset() {
-        houseScriptableObject.level = 0;
-        houseScriptableObject.initialProduction = 2;
-        houseScriptableObject.initialCost = 5;
-        houseScriptableObject.growthRate = 1.07f;
-
-        houseScriptableObject.actualProduction.value = 0;
-        houseScriptableObject.actualProduction.scale = 0;
-
-        houseScriptableObject.nextProduction.value = 2;
-        houseScriptableObject.nextProduction.scale = 0;
-
-        houseScriptableObject.nextCost.value = 5;
-        houseScriptableObject.nextCost.scale = 0;
-
-        houseScriptableObject.tierlistRank = 0;
-        houseScriptableObject.buildingMultiplier = 1;
-
+        _goldBuildingsController.setBuildingsOriginalValues();
         _currencyController.setGold(new Value(5f, 0));
     }
 
     public void resetButton() {
         _currencyController.setWisdom(new Value(0f, 0));
+        _modifierController.setGlobalMultiplier(1f);
+        Debug.Log("Setando outro global multiplier");
+        _modifierController.setGoldMultiplier(1f);
+        _modifierController.setWisdomMultiplier(1f);
         reset();
     }
 
@@ -249,6 +247,7 @@ public class GameController : MonoBehaviour {
         } else {
             // Debug.Log("No game to load");
             GameController.wishingWellLastCollectedTime = new System.DateTime(2000, 01, 01).ToString();
+            _goldBuildingsController.setBuildingsOriginalValues();
         }
     }
 

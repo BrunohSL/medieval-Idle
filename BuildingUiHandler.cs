@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BuildingUiHandler : MonoBehaviour {
     public Text buildingNameText;
+    public TMP_Text discriptionText;
     public Text BuyValueText;
     public Text levelText;
     public Text soulsPerSecondText;
@@ -25,9 +27,10 @@ public class BuildingUiHandler : MonoBehaviour {
         BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
 
         buildingNameText.text = buildingScriptableObject.buildingName;
-        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N2") + buildingScriptableObject.nextCost.scale;
+        discriptionText.text = buildingScriptableObject.description;
+        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N1") + buildingScriptableObject.nextCost.scale;
         levelText.text = buildingScriptableObject.level.ToString() + "/" + buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank].ToString();
-        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N2") + buildingScriptableObject.actualProduction.scale;
+        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N1") + buildingScriptableObject.actualProduction.scale;
 
         levelSlider.maxValue = buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank];
         // if (building.tierlistRank > 0) {
@@ -64,10 +67,9 @@ public class BuildingUiHandler : MonoBehaviour {
     private void updateUi(BuildingController buildingController) {
         BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
 
-        // buildingNameText.text = building.buildingName;
-        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N2") + buildingScriptableObject.nextCost.scale;
+        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N1") + buildingScriptableObject.nextCost.scale;
         levelText.text = buildingScriptableObject.level.ToString() + "/" + buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank].ToString();
-        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N2") + buildingScriptableObject.actualProduction.scale;
+        soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N1") + buildingScriptableObject.actualProduction.scale;
         levelSlider.maxValue = buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank];
         // if (building.tierlistRank > 0) {
         //     levelSlider.minValue = building.tierlist.rank[building.tierlistRank--];
