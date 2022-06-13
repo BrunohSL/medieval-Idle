@@ -4,37 +4,6 @@ using UnityEngine;
 
 [System.Serializable]
 public static class Currency {
-    public static string[] suifx = new string[] {
-        "",
-        "k",
-        "kk",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-    };
-
     /**
      * Handles the sum of two values, uses the scale to make the sum
      *
@@ -184,4 +153,35 @@ public static class Currency {
 
         return valueClass;
     }
+
+    public static string[] suifx = new string[] {
+        "",
+        "k",
+        "kk",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    };
 }

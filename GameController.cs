@@ -19,18 +19,21 @@ public class GameController : MonoBehaviour {
     public GameObject upgradeBuildingUi;
     public GameObject wishingWellUi;
     public GameObject libraryUi;
+    public GameObject offlineEarningsUi;
     public bool buildingUpgradeUiOpen = false;
 
-    [SerializeField] private SaveController saveController;
-    [SerializeField] private Camera mainCamera;
+    [SerializeField] private SaveController _saveController;
+    [SerializeField] private Camera _mainCamera;
     [SerializeField] private CurrencyController _currencyController;
     [SerializeField] private ModifierController _modifierController;
     [SerializeField] private GoldBuildingsController _goldBuildingsController;
     [SerializeField] private UpgradesController _upgradesController;
     [SerializeField] private GameMath _gameMath;
 
-    void Start() {
+    void Awake() {
         _currencyController.setGold(new Value(5f, 0));
+
+        offlineEarningsUi.SetActive(true);
 
         loadGame();
     }
@@ -65,7 +68,7 @@ public class GameController : MonoBehaviour {
         }
 
         if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended)  && !buildingUpgradeUiOpen) {
-            Ray raycast = mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
+            Ray raycast = _mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
             RaycastHit raycastHit;
 
             if (Physics.Raycast(raycast, out raycastHit)) {
@@ -90,7 +93,7 @@ public class GameController : MonoBehaviour {
                 if (raycastHit.collider.name == "church") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
-                if (raycastHit.collider.name == "graveyrd") {
+                if (raycastHit.collider.name == "graveyard") {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
 
@@ -104,7 +107,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
+    void OnApplicationQuit() {
         saveGame();
     }
 
@@ -168,14 +171,13 @@ public class GameController : MonoBehaviour {
 
     public void resetMultipliersButton() {
         _upgradesController.setUpgradesOriginalValues();
+        _modifierController.setGlobalMultiplier(1f);
+        _modifierController.setGoldMultiplier(1f);
+        _modifierController.setWisdomMultiplier(1f);
     }
 
     public void resetButton() {
         _currencyController.setWisdom(new Value(0f, 0));
-        _modifierController.setGlobalMultiplier(1f);
-        Debug.Log("Setando outro global multiplier");
-        _modifierController.setGoldMultiplier(1f);
-        _modifierController.setWisdomMultiplier(1f);
         reset();
     }
 
@@ -193,12 +195,12 @@ public class GameController : MonoBehaviour {
     }
 
     public void saveGame() {
-        saveController.saveGame();
+        _saveController.saveGame();
     }
 
     public void loadGame() {
         // Debug.Log("LoadGame");
-        PlayerData data = saveController.loadGame();
+        PlayerData data = _saveController.loadGame();
 
         if (data != null) {
             _currencyController.setGold(new Value(data.totalGoldValue, data.totalGoldScale));
@@ -227,8 +229,6 @@ public class GameController : MonoBehaviour {
                 building.buildingMultiplier = data.buildingMultiplier[counter];
                 counter++;
             }
-
-            getOfflineEarnings();
         } else {
             // Debug.Log("No game to load");
             GameController.wishingWellLastCollectedTime = new System.DateTime(2000, 01, 01).ToString();
@@ -247,20 +247,30 @@ public class GameController : MonoBehaviour {
         return goldGeneratorBuildings;
     }
 
-    void getOfflineEarnings() {
-        string currentTime = System.DateTime.Now.ToString();
-        string diffInSeconds = (System.DateTime.Parse(currentTime) - System.DateTime.Parse(lastTimeOnline)).TotalSeconds.ToString();
-        Value actualProduction = getBuildingTotalProduction();
-        offlineEarnings.value = double.Parse(diffInSeconds) * actualProduction.value;
-        offlineEarnings.scale = actualProduction.scale;
+    public void getOfflineEarnings() {
+        Value offlineEarnings = getOfflineEarningsValue();
+        Debug.Log(offlineEarnings.value);
 
         Value valueClass = Currency.add(_currencyController.getGold(), offlineEarnings);
 
         _currencyController.setGold(valueClass);
 
+        offlineEarningsUi.SetActive(false);
+    }
+
+    public Value getOfflineEarningsValue() {
+        string currentTime = System.DateTime.Now.ToString();
+        string diffInSeconds = (System.DateTime.Parse(currentTime) - System.DateTime.Parse(lastTimeOnline)).TotalSeconds.ToString();
+        Debug.Log(diffInSeconds);
+        Value actualProduction = getBuildingTotalProduction();
+        offlineEarnings.value = double.Parse(diffInSeconds) * actualProduction.value;
+        offlineEarnings.scale = actualProduction.scale;
+
         while (offlineEarnings.value > 1000000) {
             offlineEarnings.value /= 1000000;
             offlineEarnings.scale++;
         }
+
+        return offlineEarnings;
     }
 }

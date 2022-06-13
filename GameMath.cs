@@ -58,8 +58,11 @@ public class GameMath : MonoBehaviour {
 
         valueClass = Currency.divide(currentGold, 100000);
 
+        Debug.Log(valueClass.value);
         valueClass = Currency.multiply(valueClass, _modifierController.getWisdomMultiplier());
+        Debug.Log(valueClass.value);
         valueClass = Currency.multiply(valueClass, _modifierController.getGlobalMultiplier());
+        Debug.Log(valueClass.value);
 
         return valueClass;
     }
