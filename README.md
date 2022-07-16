@@ -1,4 +1,4 @@
-```
+```json
 first {
     "initial production": 1.67,
     "initial cost": 5,
@@ -46,4 +46,4 @@ eighth {
     "initial cost": 179159040,
     "growth rate": 1.09,
 }
-```json
+```
