@@ -11,6 +11,6 @@ public class OfflineEarningsUiHandler : MonoBehaviour {
 
     void Start() {
         earningsValue = _gameController.getOfflineEarningsValue();
-        _earningsText.text = earningsValue.value + Currency.suifx[earningsValue.scale];
+        _earningsText.text = earningsValue.value.ToString("N2") + Sufix.sufix[earningsValue.scale];
     }
 }

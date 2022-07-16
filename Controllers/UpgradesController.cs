@@ -22,7 +22,7 @@ public class UpgradesController : MonoBehaviour {
         goldUpgrade.maxLevel = 100;
         goldUpgrade.multiplierValue = 1;
         goldUpgrade.initialCost = 2;
-        goldUpgrade.growthRate = 1.5f;
+        goldUpgrade.growthRate = 1.5d;
 
         goldUpgrade.nextCost.value = 2;
         goldUpgrade.nextCost.scale = 0;
@@ -32,7 +32,7 @@ public class UpgradesController : MonoBehaviour {
         wisdomUpgrade.maxLevel = 100;
         wisdomUpgrade.multiplierValue = 1;
         wisdomUpgrade.initialCost = 2;
-        wisdomUpgrade.growthRate = 1.5f;
+        wisdomUpgrade.growthRate = 1.5d;
 
         wisdomUpgrade.nextCost.value = 2;
         wisdomUpgrade.nextCost.scale = 0;
@@ -42,7 +42,7 @@ public class UpgradesController : MonoBehaviour {
         globalUpgrade.maxLevel = 100;
         globalUpgrade.multiplierValue = 1;
         globalUpgrade.initialCost = 2;
-        globalUpgrade.growthRate = 1.5f;
+        globalUpgrade.growthRate = 1.5d;
 
         globalUpgrade.nextCost.value = 2;
         globalUpgrade.nextCost.scale = 0;
@@ -52,7 +52,7 @@ public class UpgradesController : MonoBehaviour {
         wishingWellUpgrade.maxLevel = 100;
         wishingWellUpgrade.multiplierValue = 1;
         wishingWellUpgrade.initialCost = 2;
-        wishingWellUpgrade.growthRate = 1.5f;
+        wishingWellUpgrade.growthRate = 1.5d;
 
         wishingWellUpgrade.nextCost.value = 2;
         wishingWellUpgrade.nextCost.scale = 0;
@@ -62,7 +62,7 @@ public class UpgradesController : MonoBehaviour {
         housesUpgrade.maxLevel = 100;
         housesUpgrade.multiplierValue = 1;
         housesUpgrade.initialCost = 2;
-        housesUpgrade.growthRate = 1.5f;
+        housesUpgrade.growthRate = 1.5d;
 
         housesUpgrade.nextCost.value = 2;
         housesUpgrade.nextCost.scale = 0;
@@ -72,7 +72,7 @@ public class UpgradesController : MonoBehaviour {
         farmUpgrade.maxLevel = 100;
         farmUpgrade.multiplierValue = 1;
         farmUpgrade.initialCost = 2;
-        farmUpgrade.growthRate = 1.5f;
+        farmUpgrade.growthRate = 1.5d;
 
         farmUpgrade.nextCost.value = 2;
         farmUpgrade.nextCost.scale = 0;
@@ -82,7 +82,7 @@ public class UpgradesController : MonoBehaviour {
         animalFarmUpgrade.maxLevel = 100;
         animalFarmUpgrade.multiplierValue = 1;
         animalFarmUpgrade.initialCost = 2;
-        animalFarmUpgrade.growthRate = 1.5f;
+        animalFarmUpgrade.growthRate = 1.5d;
 
         animalFarmUpgrade.nextCost.value = 2;
         animalFarmUpgrade.nextCost.scale = 0;
@@ -92,7 +92,7 @@ public class UpgradesController : MonoBehaviour {
         foodShopUpgrade.maxLevel = 100;
         foodShopUpgrade.multiplierValue = 1;
         foodShopUpgrade.initialCost = 2;
-        foodShopUpgrade.growthRate = 1.5f;
+        foodShopUpgrade.growthRate = 1.5d;
 
         foodShopUpgrade.nextCost.value = 2;
         foodShopUpgrade.nextCost.scale = 0;
@@ -102,7 +102,7 @@ public class UpgradesController : MonoBehaviour {
         armorShopUpgrade.maxLevel = 100;
         armorShopUpgrade.multiplierValue = 1;
         armorShopUpgrade.initialCost = 2;
-        armorShopUpgrade.growthRate = 1.5f;
+        armorShopUpgrade.growthRate = 1.5d;
 
         armorShopUpgrade.nextCost.value = 2;
         armorShopUpgrade.nextCost.scale = 0;
@@ -112,7 +112,7 @@ public class UpgradesController : MonoBehaviour {
         weaponShopUpgrade.maxLevel = 100;
         weaponShopUpgrade.multiplierValue = 1;
         weaponShopUpgrade.initialCost = 2;
-        weaponShopUpgrade.growthRate = 1.5f;
+        weaponShopUpgrade.growthRate = 1.5d;
 
         weaponShopUpgrade.nextCost.value = 2;
         weaponShopUpgrade.nextCost.scale = 0;
@@ -122,7 +122,7 @@ public class UpgradesController : MonoBehaviour {
         graveyardUpgrade.maxLevel = 100;
         graveyardUpgrade.multiplierValue = 1;
         graveyardUpgrade.initialCost = 2;
-        graveyardUpgrade.growthRate = 1.5f;
+        graveyardUpgrade.growthRate = 1.5d;
 
         graveyardUpgrade.nextCost.value = 2;
         graveyardUpgrade.nextCost.scale = 0;
@@ -132,7 +132,7 @@ public class UpgradesController : MonoBehaviour {
         churchUpgrade.maxLevel = 100;
         churchUpgrade.multiplierValue = 1;
         churchUpgrade.initialCost = 2;
-        churchUpgrade.growthRate = 1.5f;
+        churchUpgrade.growthRate = 1.5d;
 
         churchUpgrade.nextCost.value = 2;
         churchUpgrade.nextCost.scale = 0;

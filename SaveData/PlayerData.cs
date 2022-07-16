@@ -25,6 +25,14 @@ public class PlayerData {
     public double[] buildingNextCostValue = new double[8];
     public int[] buildingNextCostScale = new int[8];
     public double[] buildingMultiplier = new double[8];
+    public float[] buildingOriginalColor_r = new float[8];
+    public float[] buildingOriginalColor_g = new float[8];
+    public float[] buildingOriginalColor_b = new float[8];
+    public float[] buildingOriginalColor_a = new float[8];
+    public float[] buildingActualColor_r = new float[8];
+    public float[] buildingActualColor_g = new float[8];
+    public float[] buildingActualColor_b = new float[8];
+    public float[] buildingActualColor_a = new float[8];
 
     public PlayerData() {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
@@ -32,6 +40,7 @@ public class PlayerData {
 
         CurrencyController currencyController = gameController.GetComponent<CurrencyController>();
         ModifierController modifierController = gameController.GetComponent<ModifierController>();
+        WishingWellController wishingWellController = gameController.GetComponent<WishingWellController>();
 
         totalGoldValue = currencyController.getGold().value;
         totalGoldScale = currencyController.getGold().scale;
@@ -39,7 +48,7 @@ public class PlayerData {
         totalWisdomScale = currencyController.getWisdom().scale;
 
         lastTimeOnline = System.DateTime.Now.ToString();
-        wishingWellLastCollectedTime = GameController.wishingWellLastCollectedTime;
+        wishingWellLastCollectedTime = wishingWellController.getLastCollectedTime();
 
         multiplier = modifierController.getGlobalMultiplier();
 
@@ -57,6 +66,14 @@ public class PlayerData {
             buildingNextCostValue[counter] = building.nextCost.value;
             buildingNextCostScale[counter] = building.nextCost.scale;
             buildingMultiplier[counter] = building.buildingMultiplier;
+            buildingOriginalColor_r[counter] = building.originalColor.r;
+            buildingOriginalColor_g[counter] = building.originalColor.g;
+            buildingOriginalColor_b[counter] = building.originalColor.b;
+            buildingOriginalColor_a[counter] = building.originalColor.a;
+            buildingActualColor_r[counter] = building.actualColor.r;
+            buildingActualColor_g[counter] = building.actualColor.g;
+            buildingActualColor_b[counter] = building.actualColor.b;
+            buildingActualColor_a[counter] = building.actualColor.a;
             counter++;
         }
     }

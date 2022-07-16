@@ -7,6 +7,8 @@ public class LibraryController : MonoBehaviour {
     [SerializeField] private ModifierController _modifierController;
     [SerializeField] private GoldBuildingsController _goldBuildingsController;
     [SerializeField] private GameMath _gameMath;
+    [SerializeField] private GameController _gameController;
+    [SerializeField] private GameObject _libraryUi;
 
     public void buyLibraryUpgrade(LibraryUpgradeScriptableObject libraryUpgradeScriptableObject) {
         Value valueClass = new Value();
@@ -26,7 +28,6 @@ public class LibraryController : MonoBehaviour {
 
             switch (libraryUpgradeScriptableObject.name) {
                 case "HousesUpgrade":
-                Debug.Log("Setando house multiplier");
                     _goldBuildingsController.houseScriptableObject.buildingMultiplier = libraryUpgradeScriptableObject.multiplierValue;
                     break;
                 case "FarmUpgrade":
@@ -58,11 +59,10 @@ public class LibraryController : MonoBehaviour {
                     _modifierController.setWisdomMultiplier(libraryUpgradeScriptableObject.multiplierValue);
                     break;
                 case "GlobalUpgrade":
-                Debug.Log("setando global multiplier");
                     _modifierController.setGlobalMultiplier(libraryUpgradeScriptableObject.multiplierValue);
                     break;
                 // case "WishingWellUpgrade":
-                //     _goldBuildingsController.churchScriptableObject.buildingMultiplier = libraryUpgradeScriptableObject.multiplierValue;
+                //     _modifierController.setGlobalMultiplier(libraryUpgradeScriptableObject.multiplierValue);
                 //     break;
                 default:
                     break;
@@ -79,5 +79,10 @@ public class LibraryController : MonoBehaviour {
             libraryUpgradeScriptableObject.nextCost.value = upgradeNextCost.value;
             libraryUpgradeScriptableObject.nextCost.scale = upgradeNextCost.scale;
         }
+    }
+
+    public void closeLibraryUi() {
+        _libraryUi.SetActive(false);
+        _gameController.buildingUpgradeUiOpen = false;
     }
 }

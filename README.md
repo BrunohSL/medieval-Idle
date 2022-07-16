@@ -46,16 +46,3 @@ eighth {
     initial cost: 179159040
     growth rate: 1,09
 }
-
-GV - Graveyard
-CH - Church
-GI - Guillotine
-FM - Farm
-AS - Armor shop
-CN - Chicken nest
-FS - Food shop
-WS - Weapon shop
-BT - Battle arena
-WW - Wishing Well
-CT - Castle
-CW - Castle Walls

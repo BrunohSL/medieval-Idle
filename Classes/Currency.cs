@@ -15,6 +15,10 @@ public static class Currency {
     public static Value add(Value firstValue, Value secondValue) {
         Value valueClass = new Value();
 
+        if (firstValue == null || secondValue == null) {
+            return null;
+        }
+
         if (firstValue.scale != secondValue.scale) {
             int scaleDiff = firstValue.scale - secondValue.scale;
 
@@ -35,7 +39,7 @@ public static class Currency {
             if (firstValue.scale > secondValue.scale) {
                 if (firstValue.scale > 0) {
                     firstValue.scale--;
-                    firstValue.value *= 1000000;
+                    firstValue.value *= 1000000d;
                     valueClass = add(firstValue, secondValue);
                 }
             }
@@ -43,13 +47,13 @@ public static class Currency {
             if (firstValue.scale < secondValue.scale) {
                 if (secondValue.scale > 0) {
                     secondValue.scale--;
-                    secondValue.value *= 1000000;
+                    secondValue.value *= 1000000d;
                     valueClass = add(firstValue, secondValue);
                 }
             }
 
-            if (valueClass.value > 1000000) {
-                valueClass.value /= 1000000;
+            if (valueClass.value > 1000000d) {
+                valueClass.value /= 1000000d;
                 valueClass.scale++;
             }
 
@@ -60,8 +64,8 @@ public static class Currency {
             valueClass.value = double.Parse(firstValue.value.ToString("N3"));
             valueClass.scale = firstValue.scale;
 
-            if (valueClass.value > 1000000) {
-                valueClass.value /= 1000000;
+            if (valueClass.value > 1000000d) {
+                valueClass.value /= 1000000d;
                 valueClass.scale++;
             }
 
@@ -81,6 +85,10 @@ public static class Currency {
     public static Value subtract(Value firstValue, Value secondValue) {
         Value valueClass = new Value();
 
+        if (firstValue == null || secondValue == null) {
+            return null;
+        }
+
         if (firstValue.scale != secondValue.scale) {
             int scaleDiff = firstValue.scale - secondValue.scale;
 
@@ -94,7 +102,7 @@ public static class Currency {
             if (firstValue.scale > secondValue.scale) {
                 if (firstValue.scale > 0) {
                     firstValue.scale--;
-                    firstValue.value *= 1000000;
+                    firstValue.value *= 1000000d;
                     valueClass = subtract(firstValue, secondValue);
                 }
             }
@@ -120,10 +128,14 @@ public static class Currency {
     public static Value multiply(Value value, double multiplier) {
         Value valueClass = new Value();
 
+        if (value == null) {
+            return null;
+        }
+
         value.value *= multiplier;
 
-        while (value.value > 1000000) {
-            value.value /= 1000000;
+        while (value.value > 1000000d) {
+            value.value /= 1000000d;
             value.scale++;
         }
 
@@ -133,55 +145,29 @@ public static class Currency {
     }
 
     public static Value divide(Value dividend, double divisor) {
-        Value valueClass = new Value();
+        Value valueClass = dividend;
 
-        if (dividend.value < divisor && dividend.scale <= 0) {
-            throw new System.Exception("Valor do dividendo menor que o divisor");
+        if (dividend == null) {
+            return null;
         }
 
-        if (dividend.value < divisor && dividend.scale > 0) {
+        if (dividend.scale > 0) {
             dividend.scale--;
-            dividend.value *= 1000000;
+            dividend.value *= 1000000d;
         }
 
         valueClass.value = dividend.value / divisor;
 
-        if (valueClass.value > 1000000) {
-            valueClass.value /= 1000000;
+        if (valueClass.value > 1000000d) {
+            valueClass.value /= 1000000d;
             valueClass.scale++;
+        }
+
+        if (valueClass.value < 1d && valueClass.scale > 0) {
+            dividend.scale--;
+            dividend.value *= 1000000d;
         }
 
         return valueClass;
     }
-
-    public static string[] suifx = new string[] {
-        "",
-        "k",
-        "kk",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-    };
 }

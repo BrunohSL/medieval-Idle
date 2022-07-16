@@ -24,11 +24,6 @@ public class Login : MonoBehaviour {
         string username = _userInput.text;
         string password = _passwordInput.text;
 
-        // string test = "{\"username\":\"teste\"}";
-        // GameAccount gameAccount = JsonUtility.FromJson<GameAccount>(test);
-        // Debug.Log(gameAccount._id);
-        // Debug.Log(gameAccount.username);
-
         string jsonBody = JsonUtility.ToJson(new GameAccount(username, password));
 
         UnityWebRequest request = UnityWebRequest.Post(authenticationEndpoint + "login", "POST");
@@ -50,11 +45,7 @@ public class Login : MonoBehaviour {
         }
 
         if (request.result == UnityWebRequest.Result.Success) {
-            Debug.Log(request.downloadHandler.text);
             GameAccount gameAccount = JsonUtility.FromJson<GameAccount>(request.downloadHandler.text);
-            Debug.Log(gameAccount._id);
-            Debug.Log(gameAccount.username);
-            Debug.Log(gameAccount.password);
 
             _loginButton.interactable = true;
         } else {
@@ -90,7 +81,6 @@ public class Login : MonoBehaviour {
         }
 
         if (request.result == UnityWebRequest.Result.Success) {
-            Debug.Log(request.downloadHandler.text);
             _alertText.text = "Cadastrado com sucesso";
             _loginButton.interactable = true;
         } else {

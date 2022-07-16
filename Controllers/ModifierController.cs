@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ModifierController : MonoBehaviour {
-    [SerializeField] private double _globalMultiplier = 1f;
-    [SerializeField] private double _goldMultiplier = 1f;
-    [SerializeField] private double _wisdomMultiplier = 1f;
+    [SerializeField] private double _globalMultiplier = 1d;
+    [SerializeField] private double _goldMultiplier = 1d;
+    [SerializeField] private double _wisdomMultiplier = 1d;
 
     public double getGlobalMultiplier() {
         return this._globalMultiplier;

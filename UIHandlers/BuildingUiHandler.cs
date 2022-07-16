@@ -28,7 +28,7 @@ public class BuildingUiHandler : MonoBehaviour {
 
         buildingNameText.text = buildingScriptableObject.buildingName;
         discriptionText.text = buildingScriptableObject.description;
-        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N1") + buildingScriptableObject.nextCost.scale;
+        BuyValueText.text = buildingScriptableObject.nextCost.value.ToString("N2") + Sufix.sufix[buildingScriptableObject.nextCost.scale];
         levelText.text = buildingScriptableObject.level.ToString() + "/" + buildingScriptableObject.tierlist.rank[buildingScriptableObject.tierlistRank].ToString();
         soulsPerSecondText.text = buildingScriptableObject.actualProduction.value.ToString("N1") + buildingScriptableObject.actualProduction.scale;
 

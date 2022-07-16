@@ -17,8 +17,8 @@ public class BuildingScriptableObject : ScriptableObject
 
     public BuildingTierlist tierlist;
     public int tierlistRank;
-    public double buildingMultiplier = 1f;
+    public double buildingMultiplier = 1d;
 
-    // public MeshRenderer brokenBuildingMesh;
-    // public MeshRenderer buildingMesh;
+    public Color originalColor;
+    public Color actualColor;
 }
