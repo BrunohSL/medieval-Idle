@@ -33,4 +33,11 @@ public class SaveController : MonoBehaviour {
             return null;
         }
     }
+
+    public void deleteGame() {
+        string[] filePaths = Directory.GetFiles(Application.persistentDataPath);
+        foreach (string filePath in filePaths) {
+            File.Delete(filePath);
+        }
+    }
 }

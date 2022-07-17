@@ -55,7 +55,7 @@ public class WishingWellController : MonoBehaviour {
 
     public void closeWishingWellUi() {
         wishingWellUiHandler.closeWishingWellUi();
-        _gameController.buildingUpgradeUiOpen = false;
+        _gameController.uiOpen = false;
     }
 
     public void openWishingWellUi() {

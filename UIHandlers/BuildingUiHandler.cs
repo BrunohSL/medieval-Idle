@@ -33,7 +33,7 @@ public class BuildingUiHandler : MonoBehaviour {
 
     public void openUpgradeUi(BuildingController buildingController) {
         _buildingController = buildingController;
-        _gameController.buildingUpgradeUiOpen = true;
+        _gameController.uiOpen = true;
         buildingUpgradeUi.SetActive(true);
 
         BuildingScriptableObject buildingScriptableObject = buildingController.getScriptableObject();
@@ -85,6 +85,6 @@ public class BuildingUiHandler : MonoBehaviour {
         this.gameObject.SetActive(false);
 
         _buildingController = null;
-        _gameController.buildingUpgradeUiOpen = false;
+        _gameController.uiOpen = false;
     }
 }

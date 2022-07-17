@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour {
     public BuildingUiHandler buildingUiHandler;
     public GameObject libraryUi;
     public GameObject offlineEarningsUi;
-    public bool buildingUpgradeUiOpen = false;
+    public bool uiOpen = false;
 
     [SerializeField] private SaveController _saveController;
     [SerializeField] private Camera _mainCamera;
@@ -40,8 +40,9 @@ public class GameController : MonoBehaviour {
         time -= Time.deltaTime;
         if (time <= 0) {
             Value totalProduction = getBuildingTotalProduction();
-            productionText.text = "Production: " + totalProduction.value.ToString("N2") + Sufix.sufix[totalProduction.scale];
+            goldText.text = _currencyController.getGold().value.ToString("N2") + Sufix.sufix[_currencyController.getGold().scale];
             wisdomText.text = _currencyController.getWisdom().value.ToString("N2") + Sufix.sufix[_currencyController.getWisdom().scale];
+            productionText.text = "Production: " + totalProduction.value.ToString("N2") + Sufix.sufix[totalProduction.scale];
             Value valueClass = Currency.add(_currencyController.getGold(), totalProduction);
 
             _currencyController.setGold(valueClass);
@@ -57,7 +58,7 @@ public class GameController : MonoBehaviour {
     }
 
     void checkForClick() {
-        if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).phase != TouchPhase.Moved) && !buildingUpgradeUiOpen) {
+        if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).phase != TouchPhase.Moved) && !uiOpen) {
             Ray raycast = _mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
             RaycastHit raycastHit;
 
@@ -89,11 +90,11 @@ public class GameController : MonoBehaviour {
 
                 if (raycastHit.collider.name == "library") {
                     libraryUi.SetActive(true);
-                    buildingUpgradeUiOpen = true;
+                    uiOpen = true;
                 }
                 if (raycastHit.collider.name == "wishingWell") {
                     _wishingWellController.openWishingWellUi();
-                    buildingUpgradeUiOpen = true;
+                    uiOpen = true;
                 }
             }
         }
@@ -148,16 +149,18 @@ public class GameController : MonoBehaviour {
 
             _currencyController.setGold(tempValue);
         }
-
-        goldText.text = _currencyController.getGold().value.ToString("N2") + Sufix.sufix[_currencyController.getGold().scale];
     }
 
     public void reset() {
         _goldBuildingsController.setBuildingsOriginalValues();
         _currencyController.setGold(new Value(5f, 0));
 
+        updateBuildingBuySign();
+    }
+
+    public void updateBuildingBuySign() {
         foreach (BuildingController buildingController in getBuildings()) {
-            buildingController.activateBuySign();
+            buildingController.setActiveBuySign(buildingController.getLevel() > 0 ? false : true);
         }
     }
 
@@ -234,13 +237,15 @@ public class GameController : MonoBehaviour {
             _goldBuildingsController.setBuildingsColor();
 
             offlineEarningsUi.SetActive(true);
-            buildingUpgradeUiOpen = true;
+            uiOpen = true;
         } else {
             Debug.Log("No game to load");
             _wishingWellController.setLastCollectedTime(new System.DateTime(2000, 01, 01).ToString());
             _goldBuildingsController.setBuildingsOriginalColor();
             _goldBuildingsController.setBuildingsOriginalValues();
         }
+
+        updateBuildingBuySign();
     }
 
     public List<BuildingScriptableObject> getGoldGeneratorBuildings() {
@@ -261,7 +266,7 @@ public class GameController : MonoBehaviour {
         _currencyController.setGold(valueClass);
 
         offlineEarningsUi.SetActive(false);
-        buildingUpgradeUiOpen = false;
+        uiOpen = false;
     }
 
     public Value getOfflineEarningsValue() {

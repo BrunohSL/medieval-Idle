@@ -29,7 +29,7 @@ public static class BuildingTierlist {
     };
 
     public static int[] rankMultiplier = new int[] {
-        0,
+        1,
         2,
         2,
         2,

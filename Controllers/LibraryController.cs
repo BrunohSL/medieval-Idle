@@ -83,6 +83,6 @@ public class LibraryController : MonoBehaviour {
 
     public void closeLibraryUi() {
         _libraryUi.SetActive(false);
-        _gameController.buildingUpgradeUiOpen = false;
+        _gameController.uiOpen = false;
     }
 }

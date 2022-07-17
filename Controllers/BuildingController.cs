@@ -16,16 +16,12 @@ public class BuildingController : MonoBehaviour {
         return _buildingScriptableObject.nextCost;
     }
 
-    // public Value getNextProduction() {
-    //     return new Value();
-    // }
+    public int getLevel() {
+        return _buildingScriptableObject.level;
+    }
 
-    // public Value getActualProduction() {
-    //     return new Value();
-    // }
-
-    public void activateBuySign() {
-        _buySign.SetActive(true);
+    public void setActiveBuySign(bool active) {
+        _buySign.SetActive(active);
     }
 
     /**
