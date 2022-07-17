@@ -60,5 +60,6 @@ public class WishingWellController : MonoBehaviour {
 
     public void openWishingWellUi() {
         wishingWellUiHandler.openWishingWellUi();
+        _gameController.uiOpen = true;
     }
 }

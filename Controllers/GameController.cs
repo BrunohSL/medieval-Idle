@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] private GoldBuildingsController _goldBuildingsController;
     [SerializeField] private UpgradesController _upgradesController;
     [SerializeField] private WishingWellController _wishingWellController;
+    [SerializeField] private MainMenuController _mainMenuController;
     [SerializeField] private GameMath _gameMath;
 
     void Awake() {
@@ -88,13 +89,15 @@ public class GameController : MonoBehaviour {
                     buildingUiHandler.openUpgradeUi(getBuildingByName(raycastHit.collider.name));
                 }
 
-                if (raycastHit.collider.name == "library") {
+                if (raycastHit.collider.name == "Library") {
                     libraryUi.SetActive(true);
                     uiOpen = true;
                 }
-                if (raycastHit.collider.name == "wishingWell") {
+                if (raycastHit.collider.name == "Wishing Well") {
                     _wishingWellController.openWishingWellUi();
-                    uiOpen = true;
+                }
+                if (raycastHit.collider.name == "Kings Castle") {
+                    _mainMenuController.openPlayerMenu();
                 }
             }
         }
