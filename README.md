@@ -1,4 +1,4 @@
-```json
+```javascript
 first {
     "initial production": 1.67,
     "initial cost": 5,
