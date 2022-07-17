@@ -13,13 +13,8 @@ public class GameMath : MonoBehaviour {
     /// <param name="level">The <see cref="System.Int32"/> instance that represents the level of the building or upgrde.</param>
     /// <param name="buildingMultiplier">The <see cref="System.Double"/> instance that represents the value of all bonuses multipliers that increases generation.</param>
     /// <returns>The next production value in a instance of <see cref="Value"/> Class.</returns>
-    public string getNextProductionRate(double initialProduction, int level, double buildingMultiplier = 1) {
-        // Debug.Log("initialProduction: " + initialProduction.ToString());
-        // Debug.Log("level: " + level.ToString());
-        // Debug.Log("buildingMultiplier: " + buildingMultiplier.ToString());
-        // Debug.Log("goldMultiplier: " + _modifierController.getGoldMultiplier().ToString());
-        // Debug.Log("globalMultiplier: " + _modifierController.getGlobalMultiplier().ToString());
-        double nextProductionRate = (((initialProduction * level) * buildingMultiplier) * _modifierController.getGoldMultiplier()) * _modifierController.getGlobalMultiplier();
+    public string getNextProductionRate(double initialProduction, int level, double buildingMultiplier = 1, int buildingRankMultiplier = 1) {
+        double nextProductionRate = (((initialProduction * level) * buildingMultiplier) * _modifierController.getGoldMultiplier()) * _modifierController.getGlobalMultiplier() * buildingRankMultiplier;
 
         return nextProductionRate.ToString("N2");
     }
@@ -34,7 +29,6 @@ public class GameMath : MonoBehaviour {
     /// <returns>The next cost value in a instance of <see cref="Value"/> Class.</returns>
     public Value getNextUpgradeCost(double initialCost, double growthRate, int level, int scale) {
         Value nextCost = new Value();
-        // nextCost.scale = scale;
         nextCost.scale = 0;
 
         double nextCostValue = initialCost * (Mathf.Pow((float)growthRate, level));
@@ -56,12 +50,8 @@ public class GameMath : MonoBehaviour {
         Value valueClass = new Value();
 
         valueClass = Currency.divide(currentGold, 100000);
-
-        Debug.Log(valueClass.value);
         valueClass = Currency.multiply(valueClass, _modifierController.getWisdomMultiplier());
-        Debug.Log(valueClass.value);
         valueClass = Currency.multiply(valueClass, _modifierController.getGlobalMultiplier());
-        Debug.Log(valueClass.value);
 
         return valueClass;
     }

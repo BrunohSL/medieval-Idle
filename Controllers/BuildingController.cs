@@ -13,16 +13,16 @@ public class BuildingController : MonoBehaviour {
     }
 
     public Value getUpgradeCost() {
-        return new Value();
+        return _buildingScriptableObject.nextCost;
     }
 
-    public Value getNextProduction() {
-        return new Value();
-    }
+    // public Value getNextProduction() {
+    //     return new Value();
+    // }
 
-    public Value getActualProduction() {
-        return new Value();
-    }
+    // public Value getActualProduction() {
+    //     return new Value();
+    // }
 
     public void activateBuySign() {
         _buySign.SetActive(true);
@@ -42,7 +42,7 @@ public class BuildingController : MonoBehaviour {
         Value valueClass = new Value();
         Material material = this.GetComponent<Renderer>().material;
 
-        valueClass = Currency.subtract(_currencyController.getGold(), _buildingScriptableObject.nextCost);
+        valueClass = Currency.subtract(new Value(_currencyController.getGold().value, _currencyController.getGold().scale), _buildingScriptableObject.nextCost);
 
         if (valueClass == null) {
             Debug.Log("Valor negativo aqui (valor de custo do próximo upgrade é muito caro)");
@@ -63,7 +63,8 @@ public class BuildingController : MonoBehaviour {
                 _gameMath.getNextProductionRate(
                     _buildingScriptableObject.initialProduction,
                     _buildingScriptableObject.level,
-                    _buildingScriptableObject.buildingMultiplier
+                    _buildingScriptableObject.buildingMultiplier,
+                    BuildingTierlist.rankMultiplier[_buildingScriptableObject.tierlistRank]
                 )
             );
 
@@ -78,7 +79,7 @@ public class BuildingController : MonoBehaviour {
             _buildingScriptableObject.nextCost.value = buildingNextCost.value;
             _buildingScriptableObject.nextCost.scale = buildingNextCost.scale;
 
-            if (_buildingScriptableObject.level >= _buildingScriptableObject.tierlist.rank[_buildingScriptableObject.tierlistRank]) {
+            if (_buildingScriptableObject.level >= BuildingTierlist.rank[_buildingScriptableObject.tierlistRank]) {
                 _buildingScriptableObject.tierlistRank++;
             }
 

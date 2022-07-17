@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BuildingTierlist {
-    public int[] rank = new int[] {
+public static class BuildingTierlist {
+    public static int[] rank = new int[] {
         10,
         25,
         50,
@@ -28,8 +28,8 @@ public class BuildingTierlist {
         2000
     };
 
-    public int[] rankMultiplier = new int[] {
-        2,
+    public static int[] rankMultiplier = new int[] {
+        0,
         2,
         2,
         2,

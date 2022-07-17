@@ -49,6 +49,14 @@ public class GameController : MonoBehaviour {
             time = 1f;
         }
 
+        checkForClick();
+    }
+
+    void OnApplicationQuit() {
+        saveGame();
+    }
+
+    void checkForClick() {
         if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began && Input.GetTouch(0).phase != TouchPhase.Moved) && !buildingUpgradeUiOpen) {
             Ray raycast = _mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
             RaycastHit raycastHit;
@@ -89,10 +97,6 @@ public class GameController : MonoBehaviour {
                 }
             }
         }
-    }
-
-    void OnApplicationQuit() {
-        saveGame();
     }
 
     private BuildingController[] getBuildings() {

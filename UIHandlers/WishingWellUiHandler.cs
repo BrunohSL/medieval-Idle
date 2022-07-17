@@ -16,7 +16,7 @@ public class WishingWellUiHandler : MonoBehaviour {
         Value actualProduction = gameController.getBuildingTotalProduction();
         Value rewardValue = Currency.multiply(actualProduction, 5d);
 
-        valueToCollectText.text = rewardValue.value.ToString();
+        valueToCollectText.text = rewardValue.value.ToString("N2") + Sufix.sufix[rewardValue.scale];
     }
 
     public void closeWishingWellUi() {
